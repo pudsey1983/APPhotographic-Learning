@@ -9,6 +9,15 @@
 <meta property="og:title" content="Free Photography Tools | A.P Photographic">
 <meta property="og:description" content="Interactive depth of field simulator and flash learning studio with Nikon, Canon and Sony camera presets.">
 <title>Depth of Field Simulator | A.P Photographic</title>
+<script>
+  (function () {
+    var preference = null;
+    try { preference = localStorage.getItem('ap-photographic-theme'); } catch (e) {}
+    var systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    document.documentElement.setAttribute('data-theme',
+      preference === 'dark' || (preference !== 'light' && systemDark) ? 'dark' : 'light');
+  })();
+</script>
 <style>
   :root { --ink:#161719;--muted:#667078;--red:#db2529;--red-dark:#b91c23;--paper:#f5f5f2;--line:#e3e5e4;--soft:#fff;--shade:#24262a;--radius:18px; }
   * { box-sizing:border-box; }
@@ -140,6 +149,88 @@
   .flash-footnote{font-size:12px;color:#6f7479;line-height:1.65;margin-top:14px;}
   @media(max-width:900px){.flash-layout{grid-template-columns:1fr}}
   @media(max-width:660px){.flash-lessons{grid-template-columns:1fr}.studio-heading{align-items:start;flex-direction:column}.flash-panel{padding:16px}.flash-metric strong{font-size:22px}}
+
+  /* Site-wide colour theme toggle: light is the existing design. */
+  .theme-toggle{display:inline-flex;justify-content:center;align-items:center;gap:9px;flex-shrink:0;min-height:40px;padding:8px 14px;background:#f8f9f8;color:#252a2f;border:1px solid #cfd5d7;border-radius:999px;font-size:12px;font-weight:800;white-space:nowrap;cursor:pointer;}
+  .theme-toggle:hover{background:#eeefef;border-color:#adb7ba;}
+  .theme-icon{display:inline-flex;justify-content:center;align-items:center;width:17px;font-size:19px;line-height:1;}
+  @media (max-width:760px){.topbar .wrap{gap:12px}.top-nav{gap:12px}.top-nav a:nth-child(2),.top-nav a:last-child{display:none}}
+  @media (max-width:600px){.top-nav{display:none}.brand{gap:8px}.theme-toggle{padding:8px 11px;font-size:12px;}}
+  @media (max-width:365px){.brand img{height:42px;width:42px}.brand span{font-size:12px}.brand small{font-size:9px;letter-spacing:.07em}.theme-toggle{padding:8px 9px;gap:5px;font-size:11px}}
+
+  /* Dark palette intentionally leaves both educational scene illustrations intact. */
+  :root[data-theme="dark"]{color-scheme:dark;--ink:#f1f4f6;--muted:#b1bec7;--red:#fc666c;--red-dark:#e94c55;--paper:#101419;--line:#364049;--soft:#1b232a;--shade:#111920;}
+  [data-theme="dark"] .topbar,[data-theme="dark"] .panel,[data-theme="dark"] .lesson{background:#1a222a;border-color:var(--line);box-shadow:none;}
+  [data-theme="dark"] .top-nav{color:#d2dade;}
+  [data-theme="dark"] .brand small,[data-theme="dark"] .fine-note,[data-theme="dark"] .extremes,[data-theme="dark"] .visual-info,[data-theme="dark"] .bottom p,[data-theme="dark"] .flash-footnote,[data-theme="dark"] .studio-heading p{color:var(--muted);}
+  [data-theme="dark"] label,[data-theme="dark"] .label,[data-theme="dark"] .method summary,[data-theme="dark"] .track-labels strong{color:#e6ebef;}
+  [data-theme="dark"] .btn,[data-theme="dark"] .theme-toggle{color:#f1f4f6;background:#26313a;border-color:#50606b;}
+  [data-theme="dark"] .btn:hover,[data-theme="dark"] .theme-toggle:hover{background:#35434d;border-color:#788892;}
+  [data-theme="dark"] .btn.red{background:#cc3039;color:white;border-color:#cc3039;}
+  [data-theme="dark"] .btn.red:hover{background:#ab212a;}
+  [data-theme="dark"] .tag{background:#4c272d;color:#ffb8bd;}
+  [data-theme="dark"] .select,[data-theme="dark"] .input,[data-theme="dark"] .suffix-input input{background-color:#28333c;color:#f1f4f6;border-color:#4b5a64;}
+  [data-theme="dark"] .select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23e3e9ed' stroke-width='2' fill='none'/%3E%3C/svg%3E");}
+  [data-theme="dark"] .select option,[data-theme="dark"] .select optgroup{background:#28333c;color:#f1f4f6;}
+  [data-theme="dark"] .suffix-input{border-color:#4b5a64;background:#28333c;}
+  [data-theme="dark"] .suffix-input span{color:#cbd3d9;}
+  [data-theme="dark"] .preset{background:#263139;border-color:#4b5a64;color:#e4ecf1;}
+  [data-theme="dark"] .preset:hover{background:#34414b;border-color:#84929a;}
+  [data-theme="dark"] .preset[aria-pressed="true"]{background:#4a282c;border-color:#fc666c;color:#ffc4c5;}
+  [data-theme="dark"] .unit{background:#212b33;border-color:#48545f;}
+  [data-theme="dark"] .unit button{color:#c8d0d5;}
+  [data-theme="dark"] .unit button[aria-pressed="true"]{background:#e4eaf0;color:#172029;}
+  [data-theme="dark"] .metric,[data-theme="dark"] .flash-metric{background:#25313b;border-color:#41505c;color:#f3f6f8;}
+  [data-theme="dark"] .metric.primary{background:#3a4550;border-color:#66717d;color:white;}
+  [data-theme="dark"] .metric .kicker,[data-theme="dark"] .flash-metric span{color:#b2bec6;}
+  [data-theme="dark"] .metric.primary .kicker{color:#d8e0e5;}
+  [data-theme="dark"] .metric .small,[data-theme="dark"] .flash-metric small{color:#b5c0c7;}
+  [data-theme="dark"] .distance-section{border-color:#38434c;}
+  [data-theme="dark"] .depth-track{background:#43505a;}
+  [data-theme="dark"] .track-marker.subject{background:#ebf0f2;}
+  [data-theme="dark"] .track-labels{color:#b7c3cb;}
+  [data-theme="dark"] .method{background:#242f38;border-color:#485862;color:#c8d2d9;}
+  [data-theme="dark"] .footer{border-color:#3b4751;color:#b3c1c8;}
+  [data-theme="dark"] .footer a{color:#ecf1f4;}
+  [data-theme="dark"] .bottom a{color:#f5b2b5;}
+  [data-theme="dark"] .studio-flag{background:#36424c;color:#e3ebf1;}
+  [data-theme="dark"] .flash-feedback{background:#342b31;color:#e4dce0;border-left-color:#fc666c;}
+  [data-theme="dark"] .flash-feedback strong{color:#f8edf0;}
+  [data-theme="dark"] .lesson p{color:#bfccd3;}
+  [data-theme="dark"] .flash-metric strong{color:#f5f7f8;}
+  [data-theme="dark"] .section-title span[style]{color:#b7c3cb !important;}
+  [data-theme="dark"] .toast{background:#eaf0f3;color:#172029;}
+  [data-theme="dark"] ::placeholder{color:#bdc5ca;}
+
+  /* Photographic scenes: separate real-looking focal plane and background layers. */
+  .photo-visual{background:#34483c;--photo-url:url("images/portrait.jpg");--bg-blur:9px;--sharp-blur:0px;}
+  .photo-visual .photo-layer{position:absolute;inset:-4%;background-image:var(--photo-url);background-position:50% 50%;background-size:cover;background-repeat:no-repeat;transition:filter .16s ease;will-change:filter;}
+  .photo-visual .photo-background{z-index:0;filter:blur(var(--bg-blur));}
+  .photo-visual .photo-subject{z-index:1;filter:blur(var(--sharp-blur));-webkit-mask-image:radial-gradient(ellipse 31% 79% at 50% 52%,#000 58%,transparent 100%);mask-image:radial-gradient(ellipse 31% 79% at 50% 52%,#000 58%,transparent 100%);}
+  .photo-visual[data-scene="sports"] .photo-subject{-webkit-mask-image:radial-gradient(ellipse 24% 82% at 52% 52%,#000 64%,transparent 100%);mask-image:radial-gradient(ellipse 24% 82% at 52% 52%,#000 64%,transparent 100%);}
+  .presets .preset[data-preset="panning"]{grid-column:1/-1;}
+  .photo-visual[data-scene="panning"] .photo-subject{-webkit-mask-image:radial-gradient(ellipse 31% 78% at 52% 53%,#000 57%,transparent 100%);mask-image:radial-gradient(ellipse 31% 78% at 52% 53%,#000 57%,transparent 100%);}
+  .photo-visual[data-scene="panning"] .focus-brackets{left:52%;width:28%;height:60%;top:48%;}
+  .panning-tip{margin-top:13px;background:#f4f7fb;border:1px solid #d9e2ed;border-radius:10px;padding:11px 13px;font-size:12px;color:#405064;line-height:1.55;}
+  .panning-tip strong{color:#1c344c;}
+  [data-theme="dark"] .panning-tip{background:#232e3a;border-color:#455971;color:#d5e3f0;}
+  [data-theme="dark"] .panning-tip strong{color:#f1f5fa;}
+  .photo-visual[data-scene="landscape"] .photo-subject{-webkit-mask-image:linear-gradient(to bottom, transparent 20%,rgba(0,0,0,.1) 43%,#000 82%);mask-image:linear-gradient(to bottom, transparent 20%,rgba(0,0,0,.1) 43%,#000 82%);}
+  .photo-visual[data-scene="macro"] .photo-subject{-webkit-mask-image:radial-gradient(ellipse 35% 60% at 61% 49%,#000 58%,transparent 100%);mask-image:radial-gradient(ellipse 35% 60% at 61% 49%,#000 58%,transparent 100%);}
+  .photo-visual .focus-brackets{height:56%;width:30%;top:50%;z-index:5;}
+  .photo-visual[data-scene="landscape"] .focus-brackets{width:35%;height:42%;top:65%;}
+  .photo-visual[data-scene="macro"] .focus-brackets{left:61%;width:30%;height:55%;top:49%;}
+  .photo-visual .focus-label{z-index:6;bottom:13px;background:rgba(10,18,14,.76);}
+  .photo-caption{position:absolute;z-index:6;left:12px;top:12px;background:rgba(8,17,15,.65);color:#fff;border-radius:7px;padding:5px 9px;font-size:11px;font-weight:750;letter-spacing:.02em;}
+  /* Flash: the same photograph is composited twice so background responds to ambient light
+     while mug / plant area is illuminated by the manual-flash estimate. */
+  .photo-flash{background:#211914;min-height:242px;}
+  .photo-flash .flash-photo-bg,.photo-flash .flash-photo-subject{position:absolute;inset:-3%;background-image:url("images/flash-still-life.jpg");background-size:cover;background-position:center 52%;background-repeat:no-repeat;transition:filter .16s ease;}
+  .photo-flash .flash-photo-bg{filter:brightness(var(--ambient-brightness,.6));}
+  .photo-flash .flash-photo-subject{filter:brightness(var(--subject-brightness,1));-webkit-mask-image:radial-gradient(ellipse 31% 63% at 54% 62%,#000 55%,transparent 100%);mask-image:radial-gradient(ellipse 31% 63% at 54% 62%,#000 55%,transparent 100%);}
+  .photo-flash .light{z-index:5;}
+  .photo-flash .scene-tip{z-index:5;color:#fff;background:rgba(13,20,20,.74);}
+  @media(max-width:540px){.photo-visual .focus-brackets{width:38%;}.photo-caption{font-size:10px}.photo-flash .flash-photo-subject{-webkit-mask-image:radial-gradient(ellipse 39% 62% at 54% 60%,#000 55%,transparent 100%);mask-image:radial-gradient(ellipse 39% 62% at 54% 60%,#000 55%,transparent 100%);}}
 </style>
 </head>
 <body>
@@ -153,6 +244,10 @@
         <a href="#flash">Learn flash</a><a href="#about">How it works</a>
         <a href="https://apphotographic.co.uk/" target="_blank" rel="noopener noreferrer">Visit A.P Photographic ↗</a>
       </nav>
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark mode" aria-pressed="false" title="Change colour theme">
+        <span class="theme-icon" id="theme-icon" aria-hidden="true">☾</span>
+        <span id="theme-label">Dark mode</span>
+      </button>
     </div>
   </header>
   <main class="wrap">
@@ -177,6 +272,7 @@
               <button class="preset" type="button" data-preset="sport" aria-pressed="false">Sports · 200mm</button>
               <button class="preset" type="button" data-preset="landscape" aria-pressed="false">Landscape · 24mm</button>
               <button class="preset" type="button" data-preset="macro" aria-pressed="false">Close-up · 105mm</button>
+              <button class="preset" type="button" data-preset="panning" aria-pressed="false">Panning sports · 1/60s example</button>
             </div>
           </div>
           <div class="group"><label for="camera">Camera / sensor format</label>
@@ -233,35 +329,15 @@
       </section>
       <section class="results" aria-label="Depth of field results">
         <div class="panel viz-panel">
-          <div class="viz-title"><div><h2>Focus preview</h2><p class="panel-sub">Illustrative only, not an exact optical rendering</p></div><span class="tag" id="sensor-badge">Full-frame</span></div>
-          <div class="visual" aria-label="An illustrated flower in focus with trees and foliage at other distances. Blur changes as camera settings change." role="img">
-            <div class="hills" id="hills"></div>
-            <div class="tree one" id="tree-front"><div class="trunk"></div><div class="crown"></div></div>
-            <div class="tree two" id="tree-back"><div class="trunk"></div><div class="crown"></div></div>
-            <div class="tree three" id="tree-far"><div class="trunk"></div><div class="crown"></div></div>
-            <div class="subject" id="subject">
-              <svg viewBox="0 0 160 230" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <path d="M81 218 C90 184 68 130 81 71" fill="none" stroke="#315d43" stroke-width="8" stroke-linecap="round"/>
-                <path d="M84 165 C128 118 149 148 111 177 C99 185 91 177 84 165Z" fill="#3d805a"/>
-                <path d="M79 181 C41 139 13 154 42 188 C55 198 69 189 79 181Z" fill="#5a9861"/>
-                <g transform="translate(79 69)">
-                  <ellipse cx="0" cy="-29" rx="17" ry="30" fill="#c92d36"/>
-                  <ellipse cx="0" cy="29" rx="17" ry="30" fill="#db3139"/>
-                  <ellipse cx="-29" cy="0" rx="30" ry="17" fill="#d02b35"/>
-                  <ellipse cx="29" cy="0" rx="30" ry="17" fill="#d92f38"/>
-                  <ellipse cx="-22" cy="-21" rx="20" ry="19" fill="#e74a4c"/>
-                  <ellipse cx="22" cy="-21" rx="20" ry="19" fill="#d72330"/>
-                  <ellipse cx="-22" cy="21" rx="20" ry="19" fill="#dc3b41"/>
-                  <ellipse cx="22" cy="21" rx="20" ry="19" fill="#bf1e29"/>
-                  <circle r="19" fill="#f9d574" stroke="#f1b858" stroke-width="3"/>
-                  <circle cx="-5" cy="-4" r="3" fill="#9b6420"/><circle cx="7" cy="-5" r="3" fill="#9b6420"/><circle cx="3" cy="7" r="3" fill="#9b6420"/><circle cx="-7" cy="8" r="2.5" fill="#9b6420"/>
-                </g>
-              </svg>
-            </div>
-            <div class="foreground" id="foreground"><i></i><i></i><i></i></div>
+          <div class="viz-title"><div><h2>Focus preview</h2><p class="panel-sub">Photographic teaching scene · blur is illustrative</p></div><span class="tag" id="sensor-badge">Full-frame</span></div>
+          <div class="visual photo-visual" id="dof-visual" data-scene="portrait" role="img" aria-label="Photographic scene illustrating depth of field: the background softens or sharpens as settings change">
+            <div class="photo-layer photo-background" id="photo-background" aria-hidden="true"></div>
+            <div class="photo-layer photo-subject" id="photo-subject" aria-hidden="true"></div>
             <div class="focus-brackets" aria-hidden="true"><span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span></div>
-            <div class="focus-label">● Subject in focus</div>
+            <div class="focus-label">● Focused subject</div>
+            <div class="photo-caption" id="photo-caption">Portrait scene</div>
           </div>
+          <div id="panning-tip" class="panning-tip" hidden><strong>Panning technique:</strong> This photograph already contains motion blur. A shutter speed around 1/60s is a starting point for tracking a moving player; follow the subject smoothly throughout the exposure. The aperture controls below calculate depth of field, <strong>not</strong> shutter-induced motion blur. The preview is illustrative, not a shutter-speed simulation.</div>
           <div class="visual-info"><span id="scene-description">Shallower depth of field makes the background softer.</span><span id="current-config">D850 · 85mm · f/1.8</span></div>
           <div class="readouts" aria-live="polite" aria-atomic="false">
             <div class="metric primary"><div class="kicker">Total depth of field</div><strong id="total-dof">0.05 m</strong><div class="small">Acceptably sharp zone</div></div>
@@ -274,7 +350,7 @@
             <div class="depth-track" id="depth-track"><div class="in-focus"></div><span class="track-marker near"></span><span class="track-marker subject"></span><span class="track-marker far"></span></div>
             <div class="track-labels"><span><strong id="track-near">Near</strong>Near limit</span><span><strong id="track-subject">Subject</strong>Focus point</span><span><strong id="track-far">Far</strong>Far limit</span></div>
           </div>
-          <details class="method"><summary>How are these results calculated?</summary><p>Standard thin-lens depth-of-field equations are used. Hyperfocal distance: H = f² / (N × c) + f, where f is focal length, N is f-number and c is the sensor-format circle of confusion. Near and far limits are calculated from H and the subject distance. Results are estimates; acceptable sharpness depends on print size, viewing distance and personal judgement. The illustration and zone diagram are conceptual rather than physical-scale simulations.</p></details>
+          <details class="method"><summary>How are these results calculated?</summary><p>Standard thin-lens depth-of-field equations are used. Hyperfocal distance: H = f² / (N × c) + f, where f is focal length, N is f-number and c is the sensor-format circle of confusion. Near and far limits are calculated from H and the subject distance. Results are estimates; acceptable sharpness depends on print size, viewing distance and personal judgement. The photographic preview and zone diagram are conceptual rather than physical-scale or calibrated lens simulations.</p></details>
         </div>
       </section>
     </div>
@@ -310,7 +386,7 @@
         <section class="panel" aria-label="Flash exposure feedback">
           <div class="flash-panel">
             <div class="viz-title"><div><h2>Lighting preview</h2><p class="panel-sub">Approximate effect of flash versus ambient light</p></div><span class="tag">Educational</span></div>
-            <div class="flash-scene" id="flash-scene" role="img" aria-label="Illustrative portrait whose lighting updates with flash and exposure settings"><div class="backdrop"></div><div class="floor"></div><div class="person"><div class="hair"></div></div><div class="light"><strong>Manual flash</strong><span id="flash-scene-label">Direct · 1/64</span></div><div class="scene-tip">Conceptual preview</div></div>
+            <div class="flash-scene photo-flash" id="flash-scene" role="img" aria-label="Photographic still-life teaching scene where the subject and surrounding room brightness respond to flash and ambient light settings"><div class="flash-photo-bg" aria-hidden="true"></div><div class="flash-photo-subject" aria-hidden="true"></div><div class="light"><strong>Manual flash</strong><span id="flash-scene-label">Direct · 1/64</span></div><div class="scene-tip">Illustrative lighting · generated image</div></div>
             <div class="flash-metrics" aria-live="polite">
               <div class="flash-metric"><span>Flash exposure</span><strong id="flash-exposure">Balanced</strong><small id="flash-exposure-detail">0 stops from reference</small></div>
               <div class="flash-metric"><span>Ambient exposure</span><strong id="ambient-exposure">−1.0 EV</strong><small>Background relative to a normal exposure</small></div>
@@ -337,6 +413,25 @@
 (()=>{
   'use strict';
   const $=id=>document.getElementById(id);
+  // Light / dark switch: local-only preference, no cookie, account or network request.
+  const themeButton=$('theme-toggle');
+  function updateThemeButton(){
+    const dark=document.documentElement.dataset.theme==='dark';
+    themeButton.setAttribute('aria-pressed',String(dark));
+    themeButton.setAttribute('aria-label',dark?'Switch to light mode':'Switch to dark mode');
+    $('theme-icon').textContent=dark?'☀':'☾';
+    $('theme-label').textContent=dark?'Light mode':'Dark mode';
+    const themeMeta=document.querySelector('meta[name="theme-color"]');
+    if(themeMeta)themeMeta.setAttribute('content',dark?'#101419':'#f5f5f2');
+  }
+  themeButton.addEventListener('click',()=>{
+    const newTheme=document.documentElement.dataset.theme==='dark'?'light':'dark';
+    document.documentElement.dataset.theme=newTheme;
+    try{localStorage.setItem('ap-photographic-theme',newTheme);}catch(_){/* Storage disabled: toggle still works until reload */}
+    updateThemeButton();
+  });
+  updateThemeButton();
+
   const apertureStops=[1.2,1.3,1.4,1.6,1.8,2,2.2,2.5,2.8,3.2,3.5,4,4.5,5,5.6,6.3,7.1,8,9,10,11,13,14,16,18,20,22,25,29,32,36,40,45,50,57,64,72];
   const cameras={
     d850:{name:'Nikon D850',short:'D850',sensor:'Full-frame',coc:.030},
@@ -365,7 +460,11 @@
   const byVal=(value,stops)=>stops.reduce((best,v,i)=>Math.abs(v-value)<Math.abs(stops[best]-value)?i:best,0);
   let state={camera:'d850',focal:85,aperture:1.8,distance:2,unit:'m'};
   let activePreset='';
-  const presets={portrait:{camera:'d850',focal:85,aperture:1.8,distance:2},sport:{camera:'d850',focal:200,aperture:2.8,distance:20},landscape:{camera:'d850',focal:24,aperture:8,distance:5},macro:{camera:'d850',focal:105,aperture:5.6,distance:.45}};
+  let sceneName='portrait';
+  const sceneLabels={portrait:'Portrait scene',sport:'Sports scene',landscape:'Landscape scene',macro:'Close-up scene',panning:'Panning sports · motion blur'};
+  const sceneFiles={portrait:'portrait',sport:'sports',landscape:'landscape',macro:'macro',panning:'sports-panning'};
+  function chooseScene(name){if(!sceneLabels[name])return;sceneName=name;const panel=$('dof-visual');panel.dataset.scene=name;panel.style.setProperty('--photo-url',`url("images/${sceneFiles[name]}.jpg")`);$('photo-caption').textContent=sceneLabels[name];$('panning-tip').hidden=name!=='panning';}
+  const presets={portrait:{camera:'d850',focal:85,aperture:1.8,distance:2},sport:{camera:'d850',focal:200,aperture:2.8,distance:20},landscape:{camera:'d850',focal:24,aperture:8,distance:5},macro:{camera:'d850',focal:105,aperture:5.6,distance:.45},panning:{camera:'d850',focal:135,aperture:8,distance:12}};
   const toDisplay=m=>state.unit==='ft'?m*3.280839895:m;
   const distanceText=m=>{
     if (!Number.isFinite(m))return '∞';
@@ -427,18 +526,18 @@
     const nearSpread=clamp(28*Math.log1p((state.distance-r.near)/Math.max(.02,state.distance*.025)),3,42);
     const farSpread=Number.isFinite(r.far)?clamp(28*Math.log1p((r.far-state.distance)/Math.max(.02,state.distance*.025)),3,42):47;
     const track=$('depth-track');track.style.setProperty('--near',`${50-nearSpread}%`);track.style.setProperty('--far',`${50+farSpread}%`);
-    const treeNear=Math.max(.31,state.distance*.63);
-    const treeBack=Math.max(.33,state.distance*1.8);
-    const treeFar=Math.max(.34,state.distance*5);
-    $('tree-front').style.filter=`blur(${defocus(treeNear).toFixed(2)}px)`;
-    $('tree-back').style.filter=`blur(${defocus(treeBack).toFixed(2)}px)`;
-    $('tree-far').style.filter=`blur(${defocus(treeFar).toFixed(2)}px)`;
-    $('hills').style.filter=`blur(${(3+defocus(treeFar)*.7).toFixed(2)}px)`;
-    $('foreground').style.filter=`blur(${(2+defocus(Math.max(.31,state.distance*.4))).toFixed(2)}px)`;
+    // Lens maths drives a representative blur amount at a distant background plane.
+    // Scene photography remains deliberately illustrative, never a calibrated optical render.
+    const farSceneDistance=Math.max(3,state.distance*4);
+    const representativeBlur=defocus(farSceneDistance);
+    const depthFactor=sceneName==='landscape'?.42:sceneName==='macro'?1.15:sceneName==='panning'?.35:1;
+    const sceneBlur=clamp((representativeBlur*depthFactor),0,17);
+    $('dof-visual').style.setProperty('--bg-blur',`${sceneBlur.toFixed(2)}px`);
+    $('dof-visual').style.setProperty('--sharp-blur','0px');
     const ratio=Number.isFinite(r.total)?r.total/Math.max(.1,state.distance):4;
-    $('scene-description').textContent=ratio<.07?'Very shallow focus: background details become noticeably softer.':ratio<.4?'Moderate depth of field: a zone around the subject stays sharp.':'Deep focus: a wider range of distances can appear sharp.';
+    $('scene-description').textContent=sceneName==='panning'?'Horizontal background streaks show tracking motion; depth of field is calculated separately.':ratio<.07?'Very shallow focus: background details become noticeably softer.':ratio<.4?'Moderate depth of field: a zone around the subject stays sharp.':'Deep focus: a wider range of distances can appear sharp.';
     for(const button of document.querySelectorAll('[data-preset]'))button.setAttribute('aria-pressed',button.dataset.preset===activePreset);
-    const query=new URLSearchParams({camera:state.camera,f:state.focal.toString(),n:state.aperture.toString(),d:Number(state.distance.toPrecision(6)).toString(),units:state.unit});
+    const query=new URLSearchParams({camera:state.camera,f:state.focal.toString(),n:state.aperture.toString(),d:Number(state.distance.toPrecision(6)).toString(),units:state.unit,scene:sceneName});
     if(window.history && window.history.replaceState){try{window.history.replaceState(null,'',window.location.pathname+'?'+query.toString()+window.location.hash);}catch(_){/* Local preview may not support history updates */}}
   }
   const update=partial=>{state={...state,...partial};activePreset='';render();};
@@ -450,8 +549,8 @@
   $('exact-distance').addEventListener('change',e=>{const n=Number(e.target.value);const m=state.unit==='ft'?n/3.280839895:n;if(Number.isFinite(m)&&m>.001&&m<=10000)update({distance:m});else render();});
   $('unit-m').addEventListener('click',()=>{state.unit='m';render();});
   $('unit-ft').addEventListener('click',()=>{state.unit='ft';render();});
-  document.querySelectorAll('[data-preset]').forEach(button=>button.addEventListener('click',()=>{activePreset=button.dataset.preset;state={...state,...presets[activePreset]};render();}));
-  $('reset').addEventListener('click',()=>{state={camera:'d850',focal:85,aperture:1.8,distance:2,unit:'m'};activePreset='';render();});
+  document.querySelectorAll('[data-preset]').forEach(button=>button.addEventListener('click',()=>{activePreset=button.dataset.preset;chooseScene(activePreset);state={...state,...presets[activePreset]};render();}));
+  $('reset').addEventListener('click',()=>{state={camera:'d850',focal:85,aperture:1.8,distance:2,unit:'m'};activePreset='';chooseScene('portrait');render();});
   let toastTimeout;
   const toast=msg=>{$('toast').textContent=msg;$('toast').classList.add('show');clearTimeout(toastTimeout);toastTimeout=setTimeout(()=>$('toast').classList.remove('show'),2400);};
   $('share').addEventListener('click',async()=>{
@@ -469,6 +568,7 @@
     if(p.has('n') && Number.isFinite(n)&&n>0)state.aperture=apertureStops[byVal(n,apertureStops)];
     if(p.has('d') && Number.isFinite(d)&&d>.001&&d<=10000)state.distance=d;
     if(unit==='ft'||unit==='m')state.unit=unit;
+    if(sceneLabels[p.get('scene')])chooseScene(p.get('scene'));
   }catch(e){/* Defaults remain usable */}
 
   // Independent manual speedlight learning tool. No camera or flash hardware access.
@@ -504,7 +604,7 @@
     $('ambient-exposure').textContent=prettyStops(ambientEv);
     $('flash-effective-f').textContent=`f/${f.toFixed(1)}`;
     $('flash-range').textContent=`${(gn/x.aperture).toFixed(1)} m`;
-    // The illustration depicts a relative change only and does not simulate actual scene illuminance.
+    // The generated still-life photograph depicts relative brightness only, not physical flash illumination.
     const bg=clamp(.56*Math.pow(2,ambientEv*.38),.14,1.9);
     const subject=clamp(.28*Math.pow(2,ambientEv*.3)+.60*Math.pow(2,flashEv*.36),.18,2.5);
     $('flash-scene').style.setProperty('--ambient-brightness',bg.toFixed(2));

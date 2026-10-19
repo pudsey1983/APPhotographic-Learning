@@ -8,9 +8,10 @@ Free, responsive depth-of-field calculator and illustrative focus preview. Built
 - Controls for aperture, focal length and focusing distance
 - Near focus limit, far focus limit, total depth of field and hyperfocal distance
 - Metric and imperial distance displays
-- Scenario presets: portrait, sports, landscape, close-up
+- Scenario presets: portrait, sports, landscape, close-up, **sports panning**
 - Shareable camera settings via URL parameters
 - A.P Photographic branding and mobile-responsive design
+- **Light / dark theme toggle** in the top-right header. Starts from the visitor's device appearance preference, then remembers their choice in the browser (localStorage); no cookies, log-in or tracking required.
 - **Flash Learning Studio:** four real-world lighting scenarios, manual flash power from 1/1 to 1/128, guide number, distance, direct/bounce flash, aperture, ISO, shutter speed and ambient light
 - Estimated flash exposure, ambient exposure and flash range; interactive illustrative lighting preview and beginner lessons
 - Calculations all happen locally in the browser
@@ -18,7 +19,7 @@ Free, responsive depth-of-field calculator and illustrative focus preview. Built
 ## Deploy free using GitHub Pages
 
 1. Create a **public** repository on GitHub, for example `depth-of-field`.
-2. Select **Add file → Upload files**, and upload **index.html** and **logo.png** into the repository root (not a nested folder). Commit the changes. You may optionally upload this README file. Do **not** upload the ZIP as the only file: GitHub Pages cannot serve it as a website.
+2. If you already uploaded an earlier version, use **Add file → Upload files** to upload these updated files and confirm replacing `index.html`. Your GitHub Pages link stays the same. Otherwise, select **Add file → Upload files**, and upload **index.html** and **logo.png** into the repository root (not a nested folder). Commit the changes. You may optionally upload this README file. Do **not** upload the ZIP as the only file: GitHub Pages cannot serve it as a website.
 3. In the repository select **Settings → Pages**.
 4. Under **Build and deployment**, choose **Deploy from a branch**, with branch **main** and folder **/(root)**. Save.
 5. Wait for Pages to publish. Visit `https://YOUR-USERNAME.github.io/depth-of-field/`.
@@ -44,3 +45,20 @@ Open `index.html` in your browser. The share link works as intended once publish
 - Calculations and lighting previews are **educational estimates**. Validate with test exposures before relying on them.
 
 Copyright © 2026 A.P Photographic. Original implementation written for A.P Photographic.
+
+## Theme controls
+
+Click **Dark mode** or **Light mode** in the website header to switch. New visitors start with their device theme (when detectable). A visitor’s explicit choice is saved only on that device and browser. The depth-of-field and flash calculations are unchanged.
+
+
+## Realistic example photographs
+
+The depth-of-field preview now includes four **AI-generated example photographs** (portrait, sports, landscape, close-up); the flash preview shows an AI-generated indoor still life. They are educational illustrations, not photos taken with the selected equipment or exact lens/flash simulations. The controls still drive the live depth-of-field estimates, the simulated blur, and relative ambient-versus-flash brightness.
+
+The images are included in `images/` and are served locally by GitHub Pages; no external image service, account or payment is needed. Upload the entire `images/` folder along with `index.html`, `logo.png`, and `README.md` when updating.
+
+## Sports panning example
+
+The additional **Panning sports · 1/60s example** preset uses `images/sports-panning.jpg` (an AI-generated illustration with pre-existing motion streaking). It sets a plausible example of 135mm, f/8 at 12 metres and shows a short explanation of panning technique. **1/60s is a suggested practice starting point, not the verified shutter speed of the generated image.** Faster and slower shutter speeds change how motion is recorded, but this depth-of-field calculator does **not** simulate shutter speed.
+
+To deploy this update, replace `index.html` and upload `images/sports-panning.jpg`. The remaining photo files and `logo.png` do not need changing if already uploaded. When uploading the entire folder, preserve `images/` relative to `index.html`.
