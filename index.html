@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#111111">
+<meta name="description" content="Free interactive photography learning tools: depth of field, the exposure triangle, shutter speed, white balance, histograms, flash and camera-setting challenges. Nikon, Canon and Sony presets.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Free Photography Tools | A.P Photographic">
+<meta property="og:description" content="Free photography learning simulators for exposure, motion, colour, histograms, depth of field and flash.">
+<title>Photography Learning Lab | A.P Photographic</title>
+<script>
+  (function () {
+    var preference = null;
+    try { preference = localStorage.getItem('ap-photographic-theme'); } catch (e) {}
+    var systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    document.documentElement.setAttribute('data-theme',
+      preference === 'dark' || (preference !== 'light' && systemDark) ? 'dark' : 'light');
+  })();
+</script>
+<style>
+  :root { --ink:#161719;--muted:#667078;--red:#db2529;--red-dark:#b91c23;--paper:#f5f5f2;--line:#e3e5e4;--soft:#fff;--shade:#24262a;--radius:18px; }
+  * { box-sizing:border-box; }
+  html {scroll-behavior:smooth;}
+  body {margin:0;color:var(--ink);background:var(--paper);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;line-height:1.5;}
+  a{color:inherit;}a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid #e34b50;outline-offset:3px;}
+  button, input, select {font:inherit;}
+  button{cursor:pointer;}
+  .wrap{max-width:1240px;margin:auto;padding:0 24px;}
+  .topbar{background:white;border-bottom:1px solid var(--line);}
+  .topbar .wrap{display:flex;justify-content:space-between;align-items:center;min-height:82px;gap:20px;}
+  .brand{display:flex;align-items:center;gap:13px;text-decoration:none;flex-shrink:0;}
+  .brand img{height:62px;width:62px;object-fit:contain;}
+  .brand span{font-weight:850;letter-spacing:-.03em;font-size:18px;line-height:1.1;}
+  .brand small{display:block;font-weight:650;font-size:10px;color:#797f83;letter-spacing:.13em;margin-top:4px;}
+  .top-nav{display:flex;align-items:center;gap:20px;color:#4b5256;font-weight:650;font-size:13px;}
+  .top-nav a{text-decoration:none;}.top-nav a:hover{text-decoration:underline;}
+  .top-nav a:last-child{border:1px solid var(--line);border-radius:99px;padding:10px 14px;color:var(--ink)}
+  .hero{padding:49px 0 34px;display:flex;justify-content:space-between;align-items:flex-end;gap:16px;}
+  .eyebrow{text-transform:uppercase;letter-spacing:.16em;font-size:12px;font-weight:850;color:var(--red);margin:0 0 11px;}
+  h1{margin:0;letter-spacing:-.055em;line-height:1.04;font-size:clamp(38px,5.2vw,68px);font-weight:850;}
+  h1 em{color:var(--red);font-style:normal;}
+  .lead{font-size:16px;color:var(--muted);margin:16px 0 0;max-width:720px;}
+  .hero-actions{display:flex;gap:10px;align-items:center;flex-shrink:0;}
+  .btn{border-radius:10px;border:1px solid #d8dcdd;padding:11px 15px;background:white;color:var(--ink);font-weight:760;font-size:13px;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:42px;}
+  .btn:hover{border-color:#929da2;background:#fbfbfb}.btn.red{background:var(--red);border-color:var(--red);color:white}.btn.red:hover{background:var(--red-dark)}
+  .layout{display:grid;grid-template-columns: minmax(300px,390px) minmax(0,1fr);gap:20px;align-items:start;}
+  .panel{background:white;border:1px solid var(--line);border-radius:var(--radius);box-shadow:0 7px 27px rgba(25,35,40,.025);overflow:hidden;}
+  .panel .pad{padding:24px;}.panel-head{border-bottom:1px solid var(--line);padding:21px 24px 18px;display:flex;justify-content:space-between;align-items:center;gap:14px;}
+  h2{font-size:18px;font-weight:850;line-height:1.25;letter-spacing:-.025em;margin:0;}.panel-sub{font-size:12px;color:var(--muted);margin:4px 0 0;}
+  .tag{font-weight:800;text-transform:uppercase;font-size:10px;letter-spacing:.1em;background:#f9e8e9;color:#ab1b22;border-radius:99px;padding:6px 9px;}
+  .group{margin-bottom:24px;}.group:last-child{margin-bottom:0;}
+  label,.label{display:block;font-size:13px;font-weight:760;margin-bottom:9px;color:#343b3f;}
+  .select{width:100%;appearance:none;background:white url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23565d61' stroke-width='2' fill='none'/%3E%3C/svg%3E") no-repeat right 15px center;border:1px solid #d9dedf;border-radius:10px;padding:12px 37px 12px 13px;font-size:14px;min-height:45px;}
+  .presets{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;}
+  .preset{border:1px solid #e1e4e4;background:#fcfcfb;border-radius:9px;min-height:40px;font-size:12px;font-weight:750;padding:8px 10px;text-align:left;}
+  .preset[aria-pressed="true"]{background:#fff0f0;border-color:var(--red);color:#a81c21;}
+  .control-label{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:8px;}
+  .control-label label{margin:0;}.control-label output{font-weight:850;font-variant-numeric:tabular-nums;}
+  .slider{width:100%;accent-color:var(--red);height:7px;margin:12px 0 2px;cursor:pointer;}
+  .extremes{display:flex;justify-content:space-between;gap:10px;font-size:11px;color:#858c90;margin-top:5px;}
+  .num-inputs{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .input{width:100%;border:1px solid #d9dedf;border-radius:10px;padding:10px 11px;min-height:45px;background:#fff;}
+  .suffix-input{display:flex;align-items:center;border:1px solid #d9dedf;border-radius:10px;overflow:hidden;}
+  .suffix-input input{width:100%;min-width:0;border:0;padding:10px 11px;min-height:43px;background:white;}
+  .suffix-input span{font-size:12px;font-weight:760;padding:0 12px;color:#6c7378;}
+  .unit{display:flex;border:1px solid #d9dedf;border-radius:9px;padding:3px;background:#f8f9f8;}
+  .unit button{border:0;background:none;color:#737b80;padding:5px 10px;border-radius:7px;font-size:12px;font-weight:800;}
+  .unit button[aria-pressed="true"]{background:var(--ink);color:white;}
+  .fine-note{color:#858c90;font-size:11px;margin-top:6px;}
+  .viz-panel{padding:20px;}
+  .viz-title{display:flex;align-items:center;justify-content:space-between;gap:15px;margin:0 3px 15px;}
+  .visual{position:relative;overflow:hidden;isolation:isolate;border-radius:13px;background:linear-gradient(180deg,#b5d2d9 0%,#e0ddd1 59%,#acb6a3 59%,#738a6b 100%);height:310px;}
+  .visual::before{content:"";position:absolute;inset:-8% -4%;background:radial-gradient(ellipse at 67% 22%,rgba(255,255,255,.83),transparent 19%),radial-gradient(ellipse at 30% 24%,rgba(255,255,255,.55),transparent 23%);pointer-events:none;}
+  .hills{position:absolute;bottom:28%;width:150%;left:-25%;height:37%;background:#819f8f;clip-path:polygon(0 75%,10% 50%,22% 70%,32% 35%,45% 73%,60% 24%,74% 72%,83% 46%,100% 70%,100% 100%,0 100%);filter:blur(6px);opacity:.75;}
+  .tree{position:absolute;bottom:31%;transform-origin:bottom center;filter:var(--tree-blur,blur(4px));opacity:.88;}
+  .tree .trunk{position:absolute;left:calc(50% - 4px);bottom:0;width:8px;height:48%;background:#5f5548;}
+  .tree .crown{position:absolute;left:0;top:0;width:100%;height:76%;background:#477d62;border-radius:45% 50% 44% 50%;box-shadow:inset -10px -15px 0 rgba(0,0,0,.1);}
+  .tree.one{height:185px;width:90px;left:7%;--tree-blur:blur(4px)}.tree.two{height:142px;width:78px;left:76%;--tree-blur:blur(5px)}.tree.three{height:103px;width:54px;left:62%;bottom:38%;--tree-blur:blur(6px)}
+  .foreground{position:absolute;z-index:4;bottom:-30px;left:-32px;width:145px;height:190px;filter:blur(12px);opacity:.7;}
+  .foreground i{position:absolute;border-radius:60% 40% 60% 40%;background:#648659;width:47px;height:116px;transform-origin:bottom left;bottom:0;left:47px}.foreground i:nth-child(2){transform:rotate(50deg);background:#426c4b}.foreground i:nth-child(3){transform:rotate(-45deg);background:#45734c}
+  .subject{position:absolute;z-index:3;bottom:24px;left:50%;transform:translateX(-50%);height:230px;width:160px;filter:blur(var(--subject-blur, 0px));}
+  .subject svg{width:100%;height:100%;overflow:visible;filter:drop-shadow(0 5px 11px rgba(25,32,20,.24));}
+  .focus-brackets{position:absolute;left:50%;top:45%;width:188px;height:195px;transform:translate(-50%,-50%);pointer-events:none;z-index:5;opacity:.95;}
+  .corner{width:28px;height:28px;border:3px solid rgba(255,255,255,.95);position:absolute;filter:drop-shadow(0 1px 3px rgba(0,0,0,.32));}
+  .tl{top:0;left:0;border-right:0;border-bottom:0}.tr{top:0;right:0;border-left:0;border-bottom:0}.bl{bottom:0;left:0;border-right:0;border-top:0}.br{bottom:0;right:0;border-left:0;border-top:0}
+  .focus-label{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);z-index:6;background:rgba(18,24,22,.72);color:white;border-radius:99px;padding:7px 13px;font-weight:750;font-size:12px;white-space:nowrap;}
+  .visual-info{display:flex;justify-content:space-between;margin:11px 3px 0;gap:12px;color:var(--muted);font-size:12px;}
+  .readouts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:17px 0 0;}
+  .metric{border:1px solid #e4e6e6;background:#fbfcfb;border-radius:13px;padding:17px 18px;}
+  .metric.primary{background:#202124;border-color:#202124;color:#fff;}
+  .metric .kicker{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:#737e83;}
+  .metric.primary .kicker{color:#bbc0c3;}
+  .metric strong{display:block;line-height:1.2;margin-top:8px;font-size:clamp(23px,3vw,31px);font-weight:850;letter-spacing:-.045em;font-variant-numeric:tabular-nums;white-space:nowrap;}
+  .metric.primary strong{color:#fff;}.metric .small{font-size:11px;color:#8e969a;margin-top:7px;}
+  .distance-section{margin-top:20px;padding-top:18px;border-top:1px solid #ededed;}
+  .section-title{display:flex;justify-content:space-between;gap:15px;align-items:center;font-weight:800;font-size:13px;}
+  .depth-track{margin:36px 6px 22px;height:18px;background:#e5e8e9;border-radius:5px;position:relative;overflow:visible;}
+  .depth-track .in-focus{position:absolute;left:var(--near,35%);right:calc(100% - var(--far,68%));height:100%;border-radius:5px;background:linear-gradient(90deg,#e67778,var(--red));min-width:5px;}
+  .track-marker{position:absolute;z-index:2;top:-8px;width:3px;height:34px;background:#191c1e;}
+  .track-marker.near{left:var(--near,35%);background:#c52b31;}.track-marker.subject{left:50%;}.track-marker.far{left:var(--far,68%);background:#c52b31;}
+  .track-labels{display:flex;justify-content:space-between;gap:10px;color:#697278;font-size:11px;text-align:center;}
+  .track-labels > span{flex:1;min-width:0;}.track-labels strong{display:block;color:#2b3033;font-size:12px;}
+  .method{margin-top:20px;background:#f5f6f5;border:1px solid #e5e7e7;border-radius:12px;padding:13px 15px;font-size:12px;color:#626b70;line-height:1.55;}
+  .method summary{font-weight:800;color:#33393d;cursor:pointer;font-size:13px;}.method p{margin:9px 0 0;}
+  .bottom{padding:48px 0 18px;}
+  .bottom h2{font-size:26px;}.bottom p{max-width:780px;color:#656f73;font-size:14px;}
+  .footer{border-top:1px solid #dee2e1;display:flex;justify-content:space-between;gap:16px;align-items:center;padding:19px 0 29px;color:#667078;font-size:12px;}
+  .footer a{font-weight:800;color:#303638;text-decoration:none;}.footer a:hover{text-decoration:underline;}
+  .toast{position:fixed;bottom:26px;left:50%;transform:translate(-50%,15px);opacity:0;pointer-events:none;background:#202124;color:white;padding:11px 19px;border-radius:9px;box-shadow:0 10px 30px #0002;font-weight:750;font-size:13px;transition:opacity .2s,transform .2s;z-index:20}.toast.show{opacity:1;transform:translate(-50%,0);}
+  @media(max-width:900px){.hero{align-items:start;flex-direction:column}.layout{grid-template-columns:1fr}.controls{order:1}.results{order:2}.hero-actions{margin-top:4px}}
+  @media(max-width:600px){.wrap{padding:0 15px}.topbar .wrap{min-height:70px}.brand img{height:50px;width:50px}.brand span{font-size:15px}.top-nav a:nth-child(2),.top-nav a:last-child{display:none}.top-nav a:last-child{padding:8px 10px}.hero{padding:30px 0 25px}.hero-actions{flex-wrap:wrap}.lead{font-size:14px}.panel .pad{padding:17px}.panel-head{padding:17px}.viz-panel{padding:13px}.visual{height:270px}.readouts{gap:8px}.metric{padding:14px 12px}.metric strong{font-size:24px}.metric .kicker{font-size:10px}.visual-info{flex-direction:column;gap:3px}.bottom{padding-top:32px}.footer{flex-direction:column;align-items:flex-start}}
+  @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.toast{transition:none}}
+
+  /* Flash learning studio */
+  .studio{padding:45px 0 15px;scroll-margin-top:20px;}
+  .studio-heading{display:flex;align-items:end;justify-content:space-between;gap:22px;margin:0 0 20px;}
+  .studio-heading h2{font-size:clamp(27px,3.6vw,43px);letter-spacing:-.045em;}
+  .studio-heading p{color:var(--muted);max-width:690px;font-size:14px;margin:11px 0 0;}
+  .studio-flag{background:#211f21;color:white;font-size:11px;font-weight:800;letter-spacing:.05em;border-radius:20px;padding:8px 12px;white-space:nowrap;}
+  .flash-layout{display:grid;grid-template-columns:minmax(300px,390px) minmax(0,1fr);gap:20px;align-items:start;}
+  .flash-panel{padding:23px;}
+  .flash-controls .group{margin:0 0 20px;}
+  .flash-controls .group:last-child{margin-bottom:0;}
+  .flash-controls .split{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;}
+  .flash-controls .split label{min-height:18px;}
+  .flash-scene{position:relative;min-height:242px;overflow:hidden;border-radius:12px;isolation:isolate;background:linear-gradient(160deg,#293348,#49536b 48%,#242b3c);}
+  .flash-scene .backdrop{position:absolute;inset:0;background:radial-gradient(circle at 18% 29%,rgba(255,218,146,.7) 0 3%,transparent 3.5%),radial-gradient(circle at 84% 17%,rgba(255,218,146,.65) 0 3%,transparent 3.5%),linear-gradient(140deg,rgba(252,221,169,.6),transparent 48%);filter:brightness(var(--ambient-brightness, .6)) blur(6px);}
+  .flash-scene .floor{position:absolute;inset:74% 0 0;background:linear-gradient(0deg,#131923,#252c3b);opacity:.9}
+  .flash-scene .person{position:absolute;bottom:-17px;left:50%;transform:translateX(-50%);width:220px;height:245px;filter:brightness(var(--subject-brightness, 1));transition:filter .15s;}
+  .flash-scene .person::before{content:"";position:absolute;width:72px;height:85px;border-radius:46% 46% 43% 43%;left:74px;top:17px;background:linear-gradient(100deg,#a56a56,#e1aa8a 48%,#c18b70);box-shadow:inset -12px -6px 17px #663c38;}
+  .flash-scene .person::after{content:"";position:absolute;width:183px;height:172px;border-radius:92px 92px 0 0;left:18px;top:96px;background:linear-gradient(95deg,#262e3a,#a33b40 43%,#d05255 54%,#602630 100%);}
+  .flash-scene .hair{position:absolute;width:85px;height:32px;background:#342a28;border-radius:48% 48% 20% 15%;top:11px;left:68px;z-index:1;transform:rotate(-6deg);}
+  .flash-scene .light{position:absolute;z-index:3;top:17px;left:22px;font-weight:780;color:#fff;background:#1a1c24aa;border:1px solid #ffffff33;padding:7px 11px;border-radius:8px;font-size:12px;}
+  .flash-scene .light strong{display:block;font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:#ecdee0;}
+  .flash-scene .scene-tip{position:absolute;z-index:4;right:14px;bottom:12px;color:#fff8;background:#1119;padding:6px 10px;border-radius:8px;font-size:11px;}
+  .flash-metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:15px 0;}
+  .flash-metric{background:#f8f8f6;border:1px solid #e8e8e6;border-radius:12px;padding:14px 15px;}
+  .flash-metric span{display:block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#6f7479;font-weight:780;}
+  .flash-metric strong{display:block;font-size:25px;line-height:1.2;letter-spacing:-.025em;margin-top:7px;font-variant-numeric:tabular-nums;}
+  .flash-metric small{display:block;color:#757d82;font-size:11px;margin-top:5px;}
+  .flash-feedback{border-left:4px solid var(--red);padding:13px 15px;background:#f8f4f4;border-radius:0 9px 9px 0;font-size:13px;color:#45474b;line-height:1.6;}
+  .flash-feedback strong{display:block;color:#2c3033;margin-bottom:4px;}
+  .flash-lessons{margin-top:22px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+  .lesson{background:#fff;border:1px solid #e1e4e4;padding:20px;border-radius:14px;}
+  .lesson span{font-size:11px;font-weight:850;letter-spacing:.1em;text-transform:uppercase;color:var(--red);}
+  .lesson h3{font-size:15px;letter-spacing:-.02em;margin:6px 0;}
+  .lesson p{font-size:12px;color:#6a7377;line-height:1.6;margin:0;}
+  .flash-footnote{font-size:12px;color:#6f7479;line-height:1.65;margin-top:14px;}
+  @media(max-width:900px){.flash-layout{grid-template-columns:1fr}}
+  @media(max-width:660px){.flash-lessons{grid-template-columns:1fr}.studio-heading{align-items:start;flex-direction:column}.flash-panel{padding:16px}.flash-metric strong{font-size:22px}}
+
+  /* Site-wide colour theme toggle: light is the existing design. */
+  .theme-toggle{display:inline-flex;justify-content:center;align-items:center;gap:9px;flex-shrink:0;min-height:40px;padding:8px 14px;background:#f8f9f8;color:#252a2f;border:1px solid #cfd5d7;border-radius:999px;font-size:12px;font-weight:800;white-space:nowrap;cursor:pointer;}
+  .theme-toggle:hover{background:#eeefef;border-color:#adb7ba;}
+  .theme-icon{display:inline-flex;justify-content:center;align-items:center;width:17px;font-size:19px;line-height:1;}
+  @media (max-width:760px){.topbar .wrap{gap:12px}.top-nav{gap:12px}.top-nav a:nth-child(2),.top-nav a:last-child{display:none}}
+  @media (max-width:600px){.top-nav{display:none}.brand{gap:8px}.theme-toggle{padding:8px 11px;font-size:12px;}}
+  @media (max-width:365px){.brand img{height:42px;width:42px}.brand span{font-size:12px}.brand small{font-size:9px;letter-spacing:.07em}.theme-toggle{padding:8px 9px;gap:5px;font-size:11px}}
+
+  /* Dark palette intentionally leaves both educational scene illustrations intact. */
+  :root[data-theme="dark"]{color-scheme:dark;--ink:#f1f4f6;--muted:#b1bec7;--red:#fc666c;--red-dark:#e94c55;--paper:#101419;--line:#364049;--soft:#1b232a;--shade:#111920;}
+  [data-theme="dark"] .topbar,[data-theme="dark"] .panel,[data-theme="dark"] .lesson{background:#1a222a;border-color:var(--line);box-shadow:none;}
+  [data-theme="dark"] .top-nav{color:#d2dade;}
+  [data-theme="dark"] .brand small,[data-theme="dark"] .fine-note,[data-theme="dark"] .extremes,[data-theme="dark"] .visual-info,[data-theme="dark"] .bottom p,[data-theme="dark"] .flash-footnote,[data-theme="dark"] .studio-heading p{color:var(--muted);}
+  [data-theme="dark"] label,[data-theme="dark"] .label,[data-theme="dark"] .method summary,[data-theme="dark"] .track-labels strong{color:#e6ebef;}
+  [data-theme="dark"] .btn,[data-theme="dark"] .theme-toggle{color:#f1f4f6;background:#26313a;border-color:#50606b;}
+  [data-theme="dark"] .btn:hover,[data-theme="dark"] .theme-toggle:hover{background:#35434d;border-color:#788892;}
+  [data-theme="dark"] .btn.red{background:#cc3039;color:white;border-color:#cc3039;}
+  [data-theme="dark"] .btn.red:hover{background:#ab212a;}
+  [data-theme="dark"] .tag{background:#4c272d;color:#ffb8bd;}
+  [data-theme="dark"] .select,[data-theme="dark"] .input,[data-theme="dark"] .suffix-input input{background-color:#28333c;color:#f1f4f6;border-color:#4b5a64;}
+  [data-theme="dark"] .select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23e3e9ed' stroke-width='2' fill='none'/%3E%3C/svg%3E");}
+  [data-theme="dark"] .select option,[data-theme="dark"] .select optgroup{background:#28333c;color:#f1f4f6;}
+  [data-theme="dark"] .suffix-input{border-color:#4b5a64;background:#28333c;}
+  [data-theme="dark"] .suffix-input span{color:#cbd3d9;}
+  [data-theme="dark"] .preset{background:#263139;border-color:#4b5a64;color:#e4ecf1;}
+  [data-theme="dark"] .preset:hover{background:#34414b;border-color:#84929a;}
+  [data-theme="dark"] .preset[aria-pressed="true"]{background:#4a282c;border-color:#fc666c;color:#ffc4c5;}
+  [data-theme="dark"] .unit{background:#212b33;border-color:#48545f;}
+  [data-theme="dark"] .unit button{color:#c8d0d5;}
+  [data-theme="dark"] .unit button[aria-pressed="true"]{background:#e4eaf0;color:#172029;}
+  [data-theme="dark"] .metric,[data-theme="dark"] .flash-metric{background:#25313b;border-color:#41505c;color:#f3f6f8;}
+  [data-theme="dark"] .metric.primary{background:#3a4550;border-color:#66717d;color:white;}
+  [data-theme="dark"] .metric .kicker,[data-theme="dark"] .flash-metric span{color:#b2bec6;}
+  [data-theme="dark"] .metric.primary .kicker{color:#d8e0e5;}
+  [data-theme="dark"] .metric .small,[data-theme="dark"] .flash-metric small{color:#b5c0c7;}
+  [data-theme="dark"] .distance-section{border-color:#38434c;}
+  [data-theme="dark"] .depth-track{background:#43505a;}
+  [data-theme="dark"] .track-marker.subject{background:#ebf0f2;}
+  [data-theme="dark"] .track-labels{color:#b7c3cb;}
+  [data-theme="dark"] .method{background:#242f38;border-color:#485862;color:#c8d2d9;}
+  [data-theme="dark"] .footer{border-color:#3b4751;color:#b3c1c8;}
+  [data-theme="dark"] .footer a{color:#ecf1f4;}
+  [data-theme="dark"] .bottom a{color:#f5b2b5;}
+  [data-theme="dark"] .studio-flag{background:#36424c;color:#e3ebf1;}
+  [data-theme="dark"] .flash-feedback{background:#342b31;color:#e4dce0;border-left-color:#fc666c;}
+  [data-theme="dark"] .flash-feedback strong{color:#f8edf0;}
+  [data-theme="dark"] .lesson p{color:#bfccd3;}
+  [data-theme="dark"] .flash-metric strong{color:#f5f7f8;}
+  [data-theme="dark"] .section-title span[style]{color:#b7c3cb !important;}
+  [data-theme="dark"] .toast{background:#eaf0f3;color:#172029;}
+  [data-theme="dark"] ::placeholder{color:#bdc5ca;}
+
+  /* Photographic scenes: separate real-looking focal plane and background layers. */
+  .photo-visual{background:#34483c;--photo-url:url("portrait.jpg");--bg-blur:9px;--sharp-blur:0px;}
+  .photo-visual .photo-layer{position:absolute;inset:-4%;background-image:var(--photo-url);background-position:50% 50%;background-size:cover;background-repeat:no-repeat;transition:filter .16s ease;will-change:filter;}
+  .photo-visual .photo-background{z-index:0;filter:blur(var(--bg-blur));}
+  .photo-visual .photo-subject{z-index:1;filter:blur(var(--sharp-blur));-webkit-mask-image:radial-gradient(ellipse 31% 79% at 50% 52%,#000 58%,transparent 100%);mask-image:radial-gradient(ellipse 31% 79% at 50% 52%,#000 58%,transparent 100%);}
+  .photo-visual[data-scene="sports"] .photo-subject{-webkit-mask-image:radial-gradient(ellipse 24% 82% at 52% 52%,#000 64%,transparent 100%);mask-image:radial-gradient(ellipse 24% 82% at 52% 52%,#000 64%,transparent 100%);}
+  .photo-visual[data-scene="landscape"] .photo-subject{-webkit-mask-image:linear-gradient(to bottom, transparent 20%,rgba(0,0,0,.1) 43%,#000 82%);mask-image:linear-gradient(to bottom, transparent 20%,rgba(0,0,0,.1) 43%,#000 82%);}
+  .photo-visual[data-scene="macro"] .photo-subject{-webkit-mask-image:radial-gradient(ellipse 35% 60% at 61% 49%,#000 58%,transparent 100%);mask-image:radial-gradient(ellipse 35% 60% at 61% 49%,#000 58%,transparent 100%);}
+  .photo-visual .focus-brackets{height:56%;width:30%;top:50%;z-index:5;}
+  .photo-visual[data-scene="landscape"] .focus-brackets{width:35%;height:42%;top:65%;}
+  .photo-visual[data-scene="macro"] .focus-brackets{left:61%;width:30%;height:55%;top:49%;}
+  .photo-visual .focus-label{z-index:6;bottom:13px;background:rgba(10,18,14,.76);}
+  .photo-caption{position:absolute;z-index:6;left:12px;top:12px;background:rgba(8,17,15,.65);color:#fff;border-radius:7px;padding:5px 9px;font-size:11px;font-weight:750;letter-spacing:.02em;}
+  /* Flash: the same photograph is composited twice so background responds to ambient light
+     while mug / plant area is illuminated by the manual-flash estimate. */
+  .photo-flash{background:#211914;min-height:242px;}
+  .photo-flash .flash-photo-bg,.photo-flash .flash-photo-subject{position:absolute;inset:-3%;background-image:url("flash-still-life.jpg");background-size:cover;background-position:center 52%;background-repeat:no-repeat;transition:filter .16s ease;}
+  .photo-flash .flash-photo-bg{filter:brightness(var(--ambient-brightness,.6));}
+  .photo-flash .flash-photo-subject{filter:brightness(var(--subject-brightness,1));-webkit-mask-image:radial-gradient(ellipse 31% 63% at 54% 62%,#000 55%,transparent 100%);mask-image:radial-gradient(ellipse 31% 63% at 54% 62%,#000 55%,transparent 100%);}
+  .photo-flash .light{z-index:5;}
+  .photo-flash .scene-tip{z-index:5;color:#fff;background:rgba(13,20,20,.74);}
+  @media(max-width:540px){.photo-visual .focus-brackets{width:38%;}.photo-caption{font-size:10px}.photo-flash .flash-photo-subject{-webkit-mask-image:radial-gradient(ellipse 39% 62% at 54% 60%,#000 55%,transparent 100%);mask-image:radial-gradient(ellipse 39% 62% at 54% 60%,#000 55%,transparent 100%);}}
+
+  /* Simple three-control flash teaching tool. */
+  #flash .flash-controls .group{margin-bottom:29px;}
+  #flash .flash-controls .group:last-of-type{margin-bottom:22px;}
+  #flash .flash-hint{color:var(--muted);font-size:12px;line-height:1.55;margin:10px 0 0;}
+  #flash .flash-reset{width:100%;}
+  #flash .photo-flash{min-height:370px;--beam-rx:51%;--beam-ry:67%;--flash-brightness:1.48;--flash-opacity:.97;}
+  #flash .photo-flash .flash-photo-bg{filter:brightness(.39) saturate(.78);}
+  #flash .photo-flash .flash-photo-subject{
+    filter:brightness(var(--flash-brightness)) saturate(1.03);
+    opacity:var(--flash-opacity);
+    -webkit-mask-image:radial-gradient(ellipse var(--beam-rx) var(--beam-ry) at 54% 61%,#000 18%,rgba(0,0,0,.95) 39%,transparent 100%);
+    mask-image:radial-gradient(ellipse var(--beam-rx) var(--beam-ry) at 54% 61%,#000 18%,rgba(0,0,0,.95) 39%,transparent 100%);
+    transition:filter .13s ease,opacity .13s ease,-webkit-mask-image .13s ease;
+  }
+  #flash .photo-flash .scene-tip{font-size:11px;}
+  #flash .simple-readouts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;margin:15px 0;}
+  #flash .simple-readout{border:1px solid var(--line);border-radius:12px;background:var(--paper);padding:14px 16px;}
+  #flash .simple-readout span{font-size:11px;display:block;color:var(--muted);font-weight:760;text-transform:uppercase;letter-spacing:.065em;}
+  #flash .simple-readout strong{display:block;margin-top:5px;font-size:18px;font-weight:850;color:var(--ink);}
+  #flash .flash-feedback{margin-top:15px;}
+  @media(max-width:660px){#flash .photo-flash{min-height:295px;}#flash .simple-readout{padding:12px 13px;}#flash .simple-readout strong{font-size:15px;}}
+  @media(prefers-reduced-motion:reduce){#flash .photo-flash .flash-photo-subject{transition:none;}}
+
+/* Photography Learning Lab — new modules, sharing the existing design tokens. */
+.learning{margin-top:42px;scroll-margin-top:16px;}
+.learning .lab-intro{display:flex;align-items:end;justify-content:space-between;gap:20px;margin:0 0 20px;}
+.learning .lab-intro h2{font-size:clamp(27px,3.4vw,40px);letter-spacing:-.045em;}
+.learning .lab-intro p:last-child{margin:7px 0 0;color:var(--muted);max-width:770px;font-size:14px;}
+.lab-kicker{display:inline-flex;align-items:center;gap:7px;color:var(--red);font-weight:850;font-size:11px;letter-spacing:.11em;text-transform:uppercase;}
+.lab-tabs{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 17px;}
+.lab-tab{background:var(--soft);color:var(--ink);border:1px solid var(--line);padding:10px 14px;border-radius:12px;font-size:12px;font-weight:800;min-height:44px;transition:background .12s,border-color .12s;}
+.lab-tab:hover{border-color:var(--red)}
+.lab-tab[aria-selected="true"]{background:var(--red);border-color:var(--red);color:#fff;}
+.lab-pane[hidden]{display:none!important;}
+.lab-grid{display:grid;grid-template-columns:minmax(275px,375px) minmax(0,1fr);gap:18px;align-items:start;}
+.lab-card-head{padding:19px 22px;border-bottom:1px solid var(--line);}
+.lab-card-head h3{font-size:18px;line-height:1.25;margin:0;letter-spacing:-.025em;}
+.lab-card-head p{font-size:12px;color:var(--muted);margin:5px 0 0;}
+.lab-pad{padding:21px;}
+.lab-pad .group{margin-bottom:22px;}
+.lab-pad .group:last-child{margin-bottom:0;}
+.lab-photo{height:296px;border-radius:12px;position:relative;overflow:hidden;background:#25302b;isolation:isolate;}
+.lab-photo>img{width:100%;height:100%;object-fit:cover;display:block;transition:filter .16s;}
+.lab-photo .lab-overlay{position:absolute;inset:0;pointer-events:none;}
+.lab-photo .lab-bottom-label{position:absolute;z-index:4;bottom:12px;left:12px;background:rgba(8,14,20,.76);color:#fff;border-radius:8px;font-size:11px;font-weight:700;padding:7px 11px;max-width:calc(100% - 24px);}
+.lab-grain{position:absolute;inset:0;opacity:0;pointer-events:none;mix-blend-mode:screen;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 190 190' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.7'/%3E%3C/svg%3E");}
+.lab-metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:13px;}
+.lab-metric{background:var(--paper);border:1px solid var(--line);border-radius:11px;padding:12px 14px;min-width:0;}
+.lab-metric span{display:block;font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.055em;}
+.lab-metric strong{display:block;font-size:18px;letter-spacing:-.02em;line-height:1.35;margin-top:4px;overflow-wrap:anywhere;}
+.lab-explain{margin-top:13px;background:var(--paper);border:1px solid var(--line);border-left:3px solid var(--red);padding:13px 15px;border-radius:0 10px 10px 0;color:var(--ink);font-size:12px;line-height:1.62;}
+.lab-explain strong{display:block;font-size:13px;margin-bottom:3px;}
+.lab-footnote{font-size:12px;color:var(--muted);margin-top:14px;line-height:1.6;}
+.lab-shortcuts{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px;}
+.lab-shortcuts button{background:var(--paper);border:1px solid var(--line);color:var(--ink);border-radius:7px;padding:7px 10px;font-size:12px;font-weight:730;min-height:35px;}
+.lab-shortcuts button[aria-pressed="true"]{border-color:var(--red);color:var(--red);background:var(--soft);}
+.lab-split-hint{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:11px;margin-top:4px;}
+.motion-photo{background-image:url("sports.jpg");background-size:cover;background-position:center;}
+.motion-photo .motion-subject{position:absolute;inset:0;background-image:url("sports.jpg");background-size:cover;background-position:center;-webkit-mask-image:radial-gradient(ellipse 27% 80% at 55% 51%,#000 55%,transparent 100%);mask-image:radial-gradient(ellipse 27% 80% at 55% 51%,#000 55%,transparent 100%);}
+.motion-photo .motion-trail{position:absolute;inset:0;background-image:url("sports.jpg");background-position:center;background-size:cover;-webkit-mask-image:radial-gradient(ellipse 27% 80% at 55% 51%,#000 55%,transparent 100%);mask-image:radial-gradient(ellipse 27% 80% at 55% 51%,#000 55%,transparent 100%);opacity:0;}
+.wb-tint{background:transparent;mix-blend-mode:color;opacity:0;}
+.hist-area{margin-top:14px;position:relative;border:1px solid var(--line);border-radius:12px;background:var(--paper);padding:13px 12px 9px;}
+.hist-area canvas{display:block;width:100%;height:154px;}
+.hist-axis{display:flex;justify-content:space-between;margin-top:4px;color:var(--muted);font-size:11px;}
+.hist-legend{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:10px;color:var(--muted);font-size:11px;}
+.hist-dot{height:9px;width:9px;background:var(--red);border-radius:99px;display:inline-block;margin-right:4px;}
+.challenge-wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(200px,260px);gap:18px;}
+.challenge-question{font-size:20px;font-weight:830;line-height:1.4;letter-spacing:-.02em;margin:7px 0 18px;}
+.challenge-choices{display:grid;gap:9px;}
+.challenge-choice{padding:13px 15px;border:1px solid var(--line);border-radius:10px;background:var(--soft);color:var(--ink);text-align:left;font-size:14px;font-weight:690;min-height:48px;}
+.challenge-choice:hover:not(:disabled){border-color:var(--red);}
+.challenge-choice.correct{background:#e8f6ec;color:#12552b;border-color:#58a875;}
+.challenge-choice.incorrect{background:#ffebeb;color:#802226;border-color:#db7b81;}
+.challenge-choice:disabled{cursor:default;opacity:1;}
+.challenge-progress{height:8px;border-radius:99px;background:var(--line);overflow:hidden;}
+.challenge-progress>div{height:100%;background:var(--red);width:0;transition:width .2s;}
+.challenge-step{font-size:13px;color:var(--muted);font-weight:700;}
+.challenge-outcome{font-size:13px;line-height:1.7;color:var(--ink);padding-top:12px;min-height:60px;}
+.challenge-summary{border:1px solid var(--line);border-radius:12px;background:var(--paper);padding:18px;}
+.challenge-summary strong{font-size:37px;display:block;letter-spacing:-.05em;line-height:1.1;}
+.challenge-summary p{font-size:12px;color:var(--muted);margin:10px 0 0;}
+.challenge-next{margin-top:12px;}
+.challenge-next[hidden]{display:none!important;}
+[data-theme="dark"] .challenge-choice.correct{background:#183d2a;color:#a9efbb;border-color:#4aa66b;}
+[data-theme="dark"] .challenge-choice.incorrect{background:#45232b;color:#ffd2d4;border-color:#b46169;}
+@media(max-width:880px){.lab-grid{grid-template-columns:1fr}.challenge-wrap{grid-template-columns:1fr}.challenge-summary{display:flex;align-items:center;justify-content:space-between;gap:20px}.challenge-summary strong{font-size:28px}.learning .lab-intro{display:block;}}
+@media(max-width:600px){.learning{margin-top:28px}.lab-tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.lab-tab{padding:9px 8px;font-size:11px}.lab-photo{height:235px}.lab-pad{padding:16px}.lab-card-head{padding:16px}.lab-metric strong{font-size:16px}.challenge-question{font-size:18px}.lab-intro h2{font-size:28px}}
+@media(prefers-reduced-motion:reduce){.lab-photo>img,.challenge-progress>div{transition:none}}
+
+/* Keep the athlete's face and ball visible in wide browser windows. */
+#exp-photo::before{content:"";position:absolute;inset:-15px;background:url("sports.jpg") center / cover;filter:blur(19px) brightness(.48);}
+#exp-photo>img{position:relative;z-index:1;object-fit:contain;}
+#exp-photo .lab-grain{z-index:2;}
+.motion-photo,.motion-photo .motion-subject,.motion-photo .motion-trail{background-size:contain;background-repeat:no-repeat;}
+
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="https://apphotographic.co.uk/" aria-label="A.P Photographic website">
+        <img src="logo.png" alt="A.P Photographic logo" width="62" height="62">
+        <span>A.P PHOTOGRAPHIC<small>PHOTOGRAPHY TOOLS</small></span>
+      </a>
+      <nav class="top-nav" aria-label="Primary navigation">
+        <a href="#learn">Learning lab</a><a href="#flash">Learn flash</a><a href="#about">About</a>
+        <a href="https://apphotographic.co.uk/" target="_blank" rel="noopener noreferrer">Visit A.P Photographic ↗</a>
+      </nav>
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark mode" aria-pressed="false" title="Change colour theme">
+        <span class="theme-icon" id="theme-icon" aria-hidden="true">☾</span>
+        <span id="theme-label">Dark mode</span>
+      </button>
+    </div>
+  </header>
+  <main class="wrap">
+    <section class="hero" aria-labelledby="main-heading">
+      <div>
+        <p class="eyebrow">Photography made clearer</p>
+        <h1 id="main-heading">Depth of Field<br><em>Simulator.</em></h1>
+        <p class="lead">Understand what's sharp and what falls out of focus. Adjust your camera, focal length, aperture and distance to see the effect instantly. Then explore five more interactive beginner lessons below.</p>
+      </div>
+      <div class="hero-actions">
+        <button class="btn" id="reset" type="button">↺ &nbsp; Reset</button>
+        <button class="btn red" id="share" type="button">↗ &nbsp; Share settings</button>
+      </div>
+    </section>
+    <div class="layout">
+      <section class="panel controls" aria-labelledby="settings-title">
+        <div class="panel-head"><div><h2 id="settings-title">Camera settings</h2><p class="panel-sub">Fine-tune your shot</p></div><span class="tag">Live preview</span></div>
+        <div class="pad">
+          <div class="group"><span class="label">Quick-start scenarios</span>
+            <div class="presets" role="group" aria-label="Preset scenarios">
+              <button class="preset" type="button" data-preset="portrait" aria-pressed="false">Portrait · 85mm</button>
+              <button class="preset" type="button" data-preset="sport" aria-pressed="false">Sports · 200mm</button>
+              <button class="preset" type="button" data-preset="landscape" aria-pressed="false">Landscape · 24mm</button>
+              <button class="preset" type="button" data-preset="macro" aria-pressed="false">Close-up · 105mm</button>
+            </div>
+          </div>
+          <div class="group"><label for="camera">Camera / sensor format</label>
+            <select id="camera" class="select">
+              <option value="d850">Nikon D850 (FX full-frame)</option>
+              <option value="d7200">Nikon D7200 (DX APS-C)</option>
+              <option value="z8">Nikon Z8 (FX full-frame)</option>
+              <option value="z50">Nikon Z50 (DX APS-C)</option>
+              <optgroup label="Canon cameras">
+                <option value="canon-r5">Canon EOS R5 (full-frame)</option>
+                <option value="canon-r6">Canon EOS R6 Mark II (full-frame)</option>
+                <option value="canon-5d4">Canon EOS 5D Mark IV (full-frame)</option>
+                <option value="canon-r7">Canon EOS R7 (APS-C)</option>
+                <option value="canon-90d">Canon EOS 90D (APS-C)</option>
+              </optgroup>
+              <optgroup label="Sony cameras">
+                <option value="sony-a7iv">Sony A7 IV (full-frame)</option>
+                <option value="sony-a7rv">Sony A7R V (full-frame)</option>
+                <option value="sony-a9iii">Sony A9 III (full-frame)</option>
+                <option value="sony-a6700">Sony A6700 (APS-C)</option>
+                <option value="sony-a6400">Sony A6400 (APS-C)</option>
+              </optgroup>
+              <optgroup label="Other sensor formats">
+              <option value="ff">Other full-frame (35mm)</option>
+              <option value="nikon-dx">Other Nikon DX (APS-C)</option>
+              <option value="canon-aps">Canon APS-C (1.6×)</option>
+              <option value="sony-aps">Other Sony APS-C</option>
+              <option value="mft">Micro Four Thirds</option>
+              </optgroup>
+            </select>
+            <div class="fine-note" id="sensor-note">Full-frame · circle of confusion 0.030 mm</div>
+          </div>
+          <div class="group">
+            <div class="control-label"><label for="focal">Focal length</label><output id="focal-out" for="focal">85 mm</output></div>
+            <input class="slider" type="range" id="focal" min="14" max="600" step="1" value="85">
+            <div class="extremes"><span>14 mm · Wide</span><span>600 mm · Telephoto</span></div>
+          </div>
+          <div class="group">
+            <div class="control-label"><label for="aperture">Aperture</label><output id="aperture-out" for="aperture">f/1.8</output></div>
+            <input class="slider" type="range" id="aperture" min="0" max="36" step="1" value="4">
+            <div class="extremes"><span>Wide · f/1.2</span><span>Narrow · f/32</span></div>
+          </div>
+          <div class="group">
+            <div class="control-label"><label for="distance">Subject distance</label><output id="distance-out" for="distance">2.0 m</output></div>
+            <input class="slider" type="range" id="distance" min="0" max="1000" step="1" value="248">
+            <div class="extremes"><span id="distance-min">0.3 m</span><span id="distance-max">100 m</span></div>
+          </div>
+          <div class="group num-inputs">
+            <div><label for="exact-focal">Exact focal length</label><div class="suffix-input"><input id="exact-focal" type="number" min="1" max="2000" step="1" value="85" inputmode="decimal"><span>mm</span></div></div>
+            <div><label for="exact-distance">Exact distance</label><div class="suffix-input"><input id="exact-distance" type="number" min="0.1" max="10000" step="any" value="2" inputmode="decimal"><span id="unit-inline">m</span></div></div>
+          </div>
+          <div class="group" style="margin-top:22px"><div class="control-label"><span class="label" style="margin:0">Distance units</span><div class="unit" role="group" aria-label="Distance unit"><button type="button" id="unit-m" aria-pressed="true">Metres</button><button type="button" id="unit-ft" aria-pressed="false">Feet</button></div></div></div>
+        </div>
+      </section>
+      <section class="results" aria-label="Depth of field results">
+        <div class="panel viz-panel">
+          <div class="viz-title"><div><h2>Focus preview</h2><p class="panel-sub">Photographic teaching scene · blur is illustrative</p></div><span class="tag" id="sensor-badge">Full-frame</span></div>
+          <div class="visual photo-visual" id="dof-visual" data-scene="portrait" role="img" aria-label="Photographic scene illustrating depth of field: the background softens or sharpens as settings change">
+            <div class="photo-layer photo-background" id="photo-background" aria-hidden="true"></div>
+            <div class="photo-layer photo-subject" id="photo-subject" aria-hidden="true"></div>
+            <div class="focus-brackets" aria-hidden="true"><span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span></div>
+            <div class="focus-label">● Focused subject</div>
+            <div class="photo-caption" id="photo-caption">Portrait scene</div>
+          </div>
+          <div class="visual-info"><span id="scene-description">Shallower depth of field makes the background softer.</span><span id="current-config">D850 · 85mm · f/1.8</span></div>
+          <div class="readouts" aria-live="polite" aria-atomic="false">
+            <div class="metric primary"><div class="kicker">Total depth of field</div><strong id="total-dof">0.05 m</strong><div class="small">Acceptably sharp zone</div></div>
+            <div class="metric"><div class="kicker">Hyperfocal distance</div><strong id="hyperfocal">135 m</strong><div class="small">Focus distance for maximum depth</div></div>
+            <div class="metric"><div class="kicker">Near focus limit</div><strong id="near">1.98 m</strong><div class="small">Closest acceptably sharp point</div></div>
+            <div class="metric"><div class="kicker">Far focus limit</div><strong id="far">2.02 m</strong><div class="small">Furthest acceptably sharp point</div></div>
+          </div>
+          <div class="distance-section">
+            <div class="section-title"><span>Depth-of-field zone</span><span style="font-size:11px;color:#737e83;font-weight:600">Conceptual scale</span></div>
+            <div class="depth-track" id="depth-track"><div class="in-focus"></div><span class="track-marker near"></span><span class="track-marker subject"></span><span class="track-marker far"></span></div>
+            <div class="track-labels"><span><strong id="track-near">Near</strong>Near limit</span><span><strong id="track-subject">Subject</strong>Focus point</span><span><strong id="track-far">Far</strong>Far limit</span></div>
+          </div>
+          <details class="method"><summary>How are these results calculated?</summary><p>Standard thin-lens depth-of-field equations are used. Hyperfocal distance: H = f² / (N × c) + f, where f is focal length, N is f-number and c is the sensor-format circle of confusion. Near and far limits are calculated from H and the subject distance. Results are estimates; acceptable sharpness depends on print size, viewing distance and personal judgement. The photographic preview and zone diagram are conceptual rather than physical-scale or calibrated lens simulations.</p></details>
+        </div>
+      </section>
+    </div>
+
+
+    <section class="learning" id="learn" aria-labelledby="lab-title">
+      <div class="lab-intro">
+        <div>
+          <span class="lab-kicker">Free interactive lessons · no sign-up</span>
+          <h2 id="lab-title">Photography <span style="color:var(--red)">Learning Lab.</span></h2>
+          <p>See the effect first, then understand the setting. Explore five hands-on tools using real-looking photographic examples.</p>
+        </div>
+      </div>
+      <div class="lab-tabs" role="tablist" aria-label="Photography learning modules">
+        <button class="lab-tab" type="button" id="tab-exposure" role="tab" data-tool="exposure" aria-controls="pane-exposure" aria-selected="true" tabindex="0">01 · Exposure triangle</button>
+        <button class="lab-tab" type="button" id="tab-shutter" role="tab" data-tool="shutter" aria-controls="pane-shutter" aria-selected="false" tabindex="-1">02 · Shutter speed</button>
+        <button class="lab-tab" type="button" id="tab-whitebalance" role="tab" data-tool="whitebalance" aria-controls="pane-whitebalance" aria-selected="false" tabindex="-1">03 · White balance</button>
+        <button class="lab-tab" type="button" id="tab-histogram" role="tab" data-tool="histogram" aria-controls="pane-histogram" aria-selected="false" tabindex="-1">04 · Histogram</button>
+        <button class="lab-tab" type="button" id="tab-challenges" role="tab" data-tool="challenges" aria-controls="pane-challenges" aria-selected="false" tabindex="-1">05 · Challenges</button>
+      </div>
+
+      <div class="lab-pane" id="pane-exposure" role="tabpanel" aria-labelledby="tab-exposure">
+        <div class="lab-grid">
+          <div class="panel"><div class="lab-card-head"><h3>Control the exposure triangle</h3><p>Change one setting at a time — or balance all three.</p></div><div class="lab-pad">
+            <div class="group"><div class="control-label"><label for="exp-aperture">Aperture</label><output id="exp-aperture-out" for="exp-aperture">f/2.8</output></div><input class="slider" id="exp-aperture" type="range" min="0" max="8" step="1" value="3"><div class="lab-split-hint"><span>f/1.4 · More light</span><span>f/22 · Less light</span></div></div>
+            <div class="group"><div class="control-label"><label for="exp-shutter">Shutter speed</label><output id="exp-shutter-out" for="exp-shutter">1/250s</output></div><input class="slider" id="exp-shutter" type="range" min="0" max="10" step="1" value="4"><div class="lab-split-hint"><span>1/4000 · Fast</span><span>1/4 · Slow</span></div></div>
+            <div class="group"><div class="control-label"><label for="exp-iso">ISO</label><output id="exp-iso-out" for="exp-iso">ISO 400</output></div><input class="slider" id="exp-iso" type="range" min="0" max="6" step="1" value="2"><div class="lab-split-hint"><span>100 · Less noise</span><span>6400 · More noise</span></div></div>
+            <button class="btn" type="button" id="exp-reset">↺ &nbsp; Reset exposure</button>
+          </div></div>
+          <div class="panel"><div class="lab-card-head"><h3>Exposure preview</h3><p>Same sports photograph · illustrative exposure and ISO noise.</p></div><div class="lab-pad">
+            <div class="lab-photo" id="exp-photo" role="img" aria-label="Sports photo showing approximate changes in exposure and digital noise"><img src="sports.jpg" alt="" id="exp-photo-image"><div class="lab-grain" id="exp-grain"></div><div class="lab-bottom-label" id="exp-photo-label">1/250s · f/2.8 · ISO 400</div></div>
+            <div class="lab-metrics"><div class="lab-metric"><span>Exposure difference</span><strong id="exp-ev">0.0 EV</strong></div><div class="lab-metric"><span>Result</span><strong id="exp-state">Balanced</strong></div></div>
+            <div class="lab-explain" aria-live="polite"><strong>What's happening?</strong><span id="exp-feedback">Try changing aperture, shutter speed or ISO.</span></div>
+          </div></div>
+        </div>
+        <p class="lab-footnote">Educational approximation: the preview shows relative brightness and an illustrative noise layer. A real exposure depends on the scene's light and metering; ISO amplifies the captured signal rather than increasing light entering the camera.</p>
+      </div>
+
+      <div class="lab-pane" id="pane-shutter" role="tabpanel" aria-labelledby="tab-shutter" hidden>
+        <div class="lab-grid"><div class="panel"><div class="lab-card-head"><h3>Freeze action or show motion</h3><p>Change shutter speed while tracking a moving footballer.</p></div><div class="lab-pad">
+          <div class="group"><div class="control-label"><label for="motion-speed">Shutter speed</label><output id="motion-speed-out" for="motion-speed">1/500s</output></div><input class="slider" id="motion-speed" type="range" min="0" max="11" step="1" value="3"><div class="lab-split-hint"><span>1/4000 · Faster</span><span>1/2 · Slower</span></div></div>
+          <div class="lab-shortcuts" role="group" aria-label="Shutter practice presets"><button type="button" data-motion="0">1/4000s</button><button type="button" data-motion="3">1/500s</button><button type="button" data-motion="6">1/60s</button><button type="button" data-motion="9">1/8s</button></div>
+          <div class="lab-explain"><strong>Remember</strong>Shutter speed controls how long light reaches the sensor. Long exposures can blur moving subjects; fast exposures can freeze them. Ambient light and camera movement matter too.</div>
+        </div></div>
+        <div class="panel"><div class="lab-card-head"><h3>Movement preview</h3><p>Artificial horizontal motion blur on a photographed footballer.</p></div><div class="lab-pad">
+          <svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute"><defs><filter id="athlete-motion-blur" x="-45%" y="-25%" width="190%" height="150%"><feGaussianBlur id="athlete-blur" stdDeviation="0 0" /></filter></defs></svg>
+          <div class="lab-photo motion-photo" id="motion-photo" role="img" aria-label="Football player with variable simulated horizontal motion blur"><div class="motion-trail" id="motion-trail" aria-hidden="true"></div><div class="motion-subject" id="motion-subject" aria-hidden="true"></div><div class="lab-bottom-label" id="motion-label">1/500s · Mostly frozen action</div></div>
+          <div class="lab-metrics"><div class="lab-metric"><span>Motion effect</span><strong id="motion-effect">Mostly frozen</strong></div><div class="lab-metric"><span>Exposure time</span><strong id="motion-duration">2 ms</strong></div></div>
+          <div class="lab-explain" aria-live="polite"><strong>Practical tip</strong><span id="motion-feedback">A fast shutter helps freeze sports action.</span></div>
+        </div></div></div>
+        <p class="lab-footnote">Blur is a visual demonstration, not a prediction for every subject. Real motion blur depends on subject speed, camera tracking, focal length and distance. Exposure brightness is held constant here so you can study motion separately.</p>
+      </div>
+
+      <div class="lab-pane" id="pane-whitebalance" role="tabpanel" aria-labelledby="tab-whitebalance" hidden>
+        <div class="lab-grid"><div class="panel"><div class="lab-card-head"><h3>Get the colour right</h3><p>Match camera white balance to the colour of the light.</p></div><div class="lab-pad">
+          <div class="group"><label for="wb-light">Light source</label><select class="select" id="wb-light"><option value="daylight">Daylight · roughly 5500K</option><option value="tungsten">Warm indoor bulbs · roughly 3200K</option><option value="shade">Open shade · roughly 7500K</option></select></div>
+          <div class="group"><div class="control-label"><label for="wb-kelvin">Camera white balance</label><output id="wb-kelvin-out" for="wb-kelvin">5500K</output></div><input class="slider" id="wb-kelvin" type="range" min="2500" max="10000" step="100" value="5500"><div class="lab-split-hint"><span>2500K · Cooler result</span><span>10000K · Warmer result</span></div><div class="lab-shortcuts" role="group" aria-label="Camera white balance presets"><button type="button" data-kelvin="3200">Tungsten</button><button type="button" data-kelvin="5500">Daylight</button><button type="button" data-kelvin="6500">Cloudy</button><button type="button" data-kelvin="7500">Shade</button></div></div>
+          <button class="btn" type="button" id="wb-match">Match the light source</button>
+        </div></div>
+        <div class="panel"><div class="lab-card-head"><h3>White balance preview</h3><p>Compare an approximate warm or cool colour cast.</p></div><div class="lab-pad">
+          <div class="lab-photo" id="wb-photo" role="img" aria-label="Photographic scene showing the colour cast from different white balance settings"><img id="wb-photo-img" src="portrait.jpg" alt=""><div class="lab-overlay wb-tint" id="wb-tint"></div><div class="lab-bottom-label" id="wb-label">Daylight · WB 5500K</div></div>
+          <div class="lab-metrics"><div class="lab-metric"><span>Colour cast</span><strong id="wb-result">Neutral</strong></div><div class="lab-metric"><span>Camera setting</span><strong id="wb-reading">5500 K</strong></div></div>
+          <div class="lab-explain" aria-live="polite"><strong>Why the colour shifts</strong><span id="wb-feedback">White balance compensates for the light source so neutral colours remain neutral.</span></div>
+        </div></div></div>
+        <p class="lab-footnote">Simplified white balance demonstration. The Kelvin control describes the <strong>camera setting</strong>: higher camera WB Kelvin produces a warmer correction for the same light. Real colour also depends on tint, mixed lighting and the original photograph.</p>
+      </div>
+
+      <div class="lab-pane" id="pane-histogram" role="tabpanel" aria-labelledby="tab-histogram" hidden>
+        <div class="lab-grid"><div class="panel"><div class="lab-card-head"><h3>Understand your histogram</h3><p>See how exposure redistributes dark and bright pixels.</p></div><div class="lab-pad">
+          <div class="group"><label for="hist-scene">Example photograph</label><select class="select" id="hist-scene"><option value="landscape">Coastal landscape</option><option value="portrait">Outdoor portrait</option><option value="sports">Football action</option></select></div>
+          <div class="group"><div class="control-label"><label for="hist-ev-slider">Exposure adjustment</label><output id="hist-ev-out" for="hist-ev-slider">+0.0 EV</output></div><input class="slider" id="hist-ev-slider" type="range" min="-3" max="3" step="0.25" value="0"><div class="lab-split-hint"><span>−3 EV · Darker</span><span>+3 EV · Brighter</span></div></div>
+          <div class="lab-shortcuts"><button type="button" data-hist="-2">−2 EV</button><button type="button" data-hist="0">0 EV</button><button type="button" data-hist="2">+2 EV</button></div>
+          <div class="lab-explain"><strong>How to read it</strong>Left = dark pixels. Right = bright pixels. Pixels piling up at an edge can indicate lost shadow or highlight detail, but a histogram shape is not automatically good or bad.</div>
+        </div></div>
+        <div class="panel"><div class="lab-card-head"><h3>Live brightness histogram</h3><p>Calculated from the example JPEG's pixel values in your browser.</p></div><div class="lab-pad">
+          <div class="lab-photo" id="hist-photo" style="height:224px" role="img" aria-label="Photograph changing brightness with simulated exposure"><img id="hist-photo-img" src="landscape.jpg" alt=""><div class="lab-bottom-label">Watch the graph below move with the image</div></div>
+          <div class="hist-area"><canvas id="hist-canvas" width="700" height="176" role="img" aria-label="Live luminance histogram, dark values on the left and highlights on the right"></canvas><div class="hist-axis"><span>← Shadows</span><span>Midtones</span><span>Highlights →</span></div></div>
+          <div class="lab-metrics"><div class="lab-metric"><span>Near black</span><strong id="hist-black">—</strong></div><div class="lab-metric"><span>Near white</span><strong id="hist-white">—</strong></div></div>
+          <div class="lab-explain" aria-live="polite"><strong>What it tells you</strong><span id="hist-feedback">Move the slider to compare a dark and bright exposure.</span></div>
+        </div></div></div>
+        <p class="lab-footnote">Histogram values use the supplied JPEG and simulated display brightness, not camera RAW sensor data. Edge percentages measure pixels very close to black or white, not exact RAW clipping.</p>
+      </div>
+
+      <div class="lab-pane" id="pane-challenges" role="tabpanel" aria-labelledby="tab-challenges" hidden>
+        <div class="challenge-wrap"><section class="panel"><div class="lab-card-head"><h3>Photography challenges</h3><p>Six beginner situations. Choose what you'd do and learn why.</p></div><div class="lab-pad">
+          <div class="challenge-step" id="challenge-step">Question 1 of 6</div><div class="challenge-progress" aria-hidden="true"><div id="challenge-bar"></div></div>
+          <div class="challenge-question" id="challenge-question"></div>
+          <div class="challenge-choices" id="challenge-choices" role="group" aria-label="Answer options"></div>
+          <div class="challenge-outcome" id="challenge-outcome" aria-live="polite"></div>
+          <button class="btn red challenge-next" id="challenge-next" type="button" hidden>Next question →</button>
+        </div></section>
+        <aside class="challenge-summary"><div><span class="lab-kicker">Your progress</span><strong id="challenge-score">0 / 6</strong><p id="challenge-best">Best score kept on this device, when permitted.</p></div><button class="btn" id="challenge-restart" type="button">↺ Restart quiz</button></aside></div>
+        <p class="lab-footnote">The quiz runs entirely in your browser. No account, tracking, submission or server is needed. Optional best-score storage remains on your own device.</p>
+      </div>
+    </section>
+
+    <section class="studio" id="flash" aria-labelledby="flash-title">
+      <div class="studio-heading">
+        <div>
+          <p class="eyebrow">Try it yourself</p>
+          <h2 id="flash-title">Simple Flash <span style="color:var(--red)">Simulator.</span></h2>
+          <p>Change just three speedlight settings and watch how the lighting changes in the photograph.</p>
+        </div>
+        <span class="studio-flag">No technical setup needed</span>
+      </div>
+      <div class="flash-layout">
+        <section class="panel flash-controls" aria-label="Simple flash controls">
+          <div class="panel-head"><div><h2>Your flash settings</h2><p class="panel-sub">Drag any slider to see the difference</p></div><span class="tag">Live preview</span></div>
+          <div class="flash-panel">
+            <div class="group">
+              <div class="control-label"><label for="flash-power">Flash power</label><output id="flash-power-out" for="flash-power">1/16</output></div>
+              <input class="slider" type="range" id="flash-power" min="0" max="7" step="1" value="3">
+              <div class="extremes"><span>Low · 1/128</span><span>Full · 1/1</span></div>
+              <p class="flash-hint">Higher power makes the flash-lit area brighter.</p>
+            </div>
+            <div class="group">
+              <div class="control-label"><label for="flash-distance">Distance from flash to subject</label><output id="flash-distance-out" for="flash-distance">2.0 m</output></div>
+              <input class="slider" type="range" id="flash-distance" min="0.5" max="8" step="0.1" value="2">
+              <div class="extremes"><span>Close · 0.5 m</span><span>Far · 8 m</span></div>
+              <p class="flash-hint">Moving the light closer makes it brighter; moving it away makes it darker.</p>
+            </div>
+            <div class="group">
+              <div class="control-label"><label for="flash-zoom">Flash zoom (focal range)</label><output id="flash-zoom-out" for="flash-zoom">50 mm</output></div>
+              <input class="slider" type="range" id="flash-zoom" min="0" max="6" step="1" value="3">
+              <div class="extremes"><span>Wide · 24 mm</span><span>Narrow · 105 mm</span></div>
+              <p class="flash-hint">A wider setting spreads light over more of the scene. A longer zoom concentrates the beam into a smaller area.</p>
+            </div>
+            <button class="btn flash-reset" type="button" id="flash-reset">↺ &nbsp; Reset flash</button>
+          </div>
+        </section>
+        <section class="panel" aria-label="Interactive flash photograph">
+          <div class="flash-panel">
+            <div class="viz-title"><div><h2>Watch the light change</h2><p class="panel-sub">Same photograph · simulated flash beam and brightness</p></div><span class="tag">Illustration</span></div>
+            <div class="flash-scene photo-flash" id="flash-scene" role="img" aria-label="An indoor photograph showing the simulated brightness and spread of light from a flash">
+              <div class="flash-photo-bg" aria-hidden="true"></div>
+              <div class="flash-photo-subject" aria-hidden="true"></div>
+              <div class="light"><strong>Speedlight</strong><span id="flash-scene-label">1/16 · 2.0 m · 50 mm</span></div>
+              <div class="scene-tip">Teaching preview · not a measured exposure</div>
+            </div>
+            <div class="simple-readouts" aria-live="polite" aria-atomic="true">
+              <div class="simple-readout"><span>Light on subject</span><strong id="flash-level">Moderate</strong></div>
+              <div class="simple-readout"><span>Flash beam</span><strong id="flash-beam">Medium coverage</strong></div>
+            </div>
+            <div class="flash-feedback" id="flash-feedback" role="status"><strong>Try moving the flash</strong><span>See how distance, power and zoom change the photograph.</span></div>
+          </div>
+        </section>
+      </div>
+      <p class="flash-footnote"><strong>How to use this:</strong> Flash zoom is the beam angle of the speedlight head, not the focal length of the lens attached to your camera. For this demonstration, camera exposure and room lighting stay fixed. The visual is a simplified illustration; real light also depends on the flash model, direction, modifiers and surroundings.</p>
+    </section>
+    <section class="bottom" id="about" aria-labelledby="about-title"><h2 id="about-title">Learn the settings. Take the shot.</h2><p>Use these free, interactive teaching tools to explore depth of field, exposure, shutter speed, colour balance, histograms, beginner challenges and flash. You can also compare portraits, sports or landscapes. A wider aperture (smaller f-number) generally reduces depth of field; stopping down and focusing further away generally increase it. Sensor format also affects conventional sharpness estimates. Save or share a link and your chosen settings will be included in the web address.</p><p>Designed as a photography learning tool by <a href="https://apphotographic.co.uk/" target="_blank" rel="noopener noreferrer">A.P Photographic</a>. No account, cookies, tracking or camera access required.</p></section>
+    <footer class="footer"><span>© <span id="year">2026</span> A.P Photographic · Free photography tools</span><span><a href="https://apphotographic.co.uk/" target="_blank" rel="noopener noreferrer">apphotographic.co.uk ↗</a></span></footer>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite">Link copied</div>
+<script>
+(()=>{
+  'use strict';
+  const $=id=>document.getElementById(id);
+  // Light / dark switch: local-only preference, no cookie, account or network request.
+  const themeButton=$('theme-toggle');
+  function updateThemeButton(){
+    const dark=document.documentElement.dataset.theme==='dark';
+    themeButton.setAttribute('aria-pressed',String(dark));
+    themeButton.setAttribute('aria-label',dark?'Switch to light mode':'Switch to dark mode');
+    $('theme-icon').textContent=dark?'☀':'☾';
+    $('theme-label').textContent=dark?'Light mode':'Dark mode';
+    const themeMeta=document.querySelector('meta[name="theme-color"]');
+    if(themeMeta)themeMeta.setAttribute('content',dark?'#101419':'#f5f5f2');
+  }
+  themeButton.addEventListener('click',()=>{
+    const newTheme=document.documentElement.dataset.theme==='dark'?'light':'dark';
+    document.documentElement.dataset.theme=newTheme;
+    try{localStorage.setItem('ap-photographic-theme',newTheme);}catch(_){/* Storage disabled: toggle still works until reload */}
+    updateThemeButton();
+  });
+  updateThemeButton();
+
+  const apertureStops=[1.2,1.3,1.4,1.6,1.8,2,2.2,2.5,2.8,3.2,3.5,4,4.5,5,5.6,6.3,7.1,8,9,10,11,13,14,16,18,20,22,25,29,32,36,40,45,50,57,64,72];
+  const cameras={
+    d850:{name:'Nikon D850',short:'D850',sensor:'Full-frame',coc:.030},
+    d7200:{name:'Nikon D7200',short:'D7200',sensor:'Nikon DX',coc:.020},
+    z8:{name:'Nikon Z8',short:'Z8',sensor:'Full-frame',coc:.030},
+    z50:{name:'Nikon Z50',short:'Z50',sensor:'Nikon DX',coc:.020},
+    'canon-r5':{name:'Canon EOS R5',short:'R5',sensor:'Full-frame',coc:.030},
+    'canon-r6':{name:'Canon EOS R6 Mark II',short:'R6 II',sensor:'Full-frame',coc:.030},
+    'canon-5d4':{name:'Canon EOS 5D Mark IV',short:'5D IV',sensor:'Full-frame',coc:.030},
+    'canon-r7':{name:'Canon EOS R7',short:'R7',sensor:'Canon APS-C',coc:.019},
+    'canon-90d':{name:'Canon EOS 90D',short:'90D',sensor:'Canon APS-C',coc:.019},
+    'sony-a7iv':{name:'Sony A7 IV',short:'A7 IV',sensor:'Full-frame',coc:.030},
+    'sony-a7rv':{name:'Sony A7R V',short:'A7R V',sensor:'Full-frame',coc:.030},
+    'sony-a9iii':{name:'Sony A9 III',short:'A9 III',sensor:'Full-frame',coc:.030},
+    'sony-a6700':{name:'Sony A6700',short:'A6700',sensor:'Sony APS-C',coc:.020},
+    'sony-a6400':{name:'Sony A6400',short:'A6400',sensor:'Sony APS-C',coc:.020},
+    ff:{name:'Full-frame',short:'Full-frame',sensor:'Full-frame',coc:.030},
+    'nikon-dx':{name:'Nikon DX',short:'Nikon DX',sensor:'Nikon DX',coc:.020},
+    'canon-aps':{name:'Canon APS-C',short:'Canon APS-C',sensor:'Canon APS-C',coc:.019},
+    'sony-aps':{name:'Sony APS-C',short:'Sony APS-C',sensor:'Sony APS-C',coc:.020},
+    mft:{name:'Micro Four Thirds',short:'MFT',sensor:'Micro Four Thirds',coc:.015}
+  };
+  const minDist=.3,maxDist=100;
+  const toSlider=m=>Math.round(1000*Math.log(Math.max(minDist,Math.min(maxDist,m))/minDist)/Math.log(maxDist/minDist));
+  const fromSlider=x=>minDist*Math.pow(maxDist/minDist,Number(x)/1000);
+  const byVal=(value,stops)=>stops.reduce((best,v,i)=>Math.abs(v-value)<Math.abs(stops[best]-value)?i:best,0);
+  let state={camera:'d850',focal:85,aperture:1.8,distance:2,unit:'m'};
+  let activePreset='';
+  let sceneName='portrait';
+  const sceneLabels={portrait:'Portrait scene',sport:'Sports scene',landscape:'Landscape scene',macro:'Close-up scene'};
+  const sceneFiles={portrait:'portrait',sport:'sports',landscape:'landscape',macro:'macro'};
+  function chooseScene(name){if(!sceneLabels[name])return;sceneName=name;const panel=$('dof-visual');panel.dataset.scene=name;panel.style.setProperty('--photo-url',`url("${sceneFiles[name]}.jpg")`);$('photo-caption').textContent=sceneLabels[name];}
+  const presets={portrait:{camera:'d850',focal:85,aperture:1.8,distance:2},sport:{camera:'d850',focal:200,aperture:2.8,distance:20},landscape:{camera:'d850',focal:24,aperture:8,distance:5},macro:{camera:'d850',focal:105,aperture:5.6,distance:.45}};
+  const toDisplay=m=>state.unit==='ft'?m*3.280839895:m;
+  const distanceText=m=>{
+    if (!Number.isFinite(m))return '∞';
+    const v=toDisplay(m),unit=state.unit==='ft'?'ft':'m';
+    if(v<1)return `${v.toFixed(2)} ${unit}`;
+    if(v<10)return `${v.toFixed(2)} ${unit}`;
+    if(v<100)return `${v.toFixed(1)} ${unit}`;
+    if(v<1000)return `${Math.round(v)} ${unit}`;
+    return `${(v/1000).toFixed(2)} k${unit}`;
+  };
+  const smallText=m=>{
+    if(!Number.isFinite(m))return '∞';
+    if(m<.01)return `${Math.round(m*10000)/10} mm`;
+    if(m<1 && state.unit==='m')return `${Math.round(m*100)} cm`;
+    return distanceText(m);
+  };
+  const clamp=(v,min,max)=>Math.min(max,Math.max(min,v));
+  const fmtInput=v=>Number.parseFloat(v.toPrecision(5)).toString();
+  function calc(){
+    const f=state.focal,N=state.aperture,c=cameras[state.camera].coc,s=state.distance*1000;
+    const H=f*f/(N*c)+f;
+    const near=H*s/(H+s-f);
+    const far=(H <= s-f)?Infinity:H*s/(H-s+f);
+    return{H:H/1000,near:near/1000,far:far/1000,total:(far-near)/1000};
+  }
+  // Approximate defocus for illustrative objects: diameter of blur circle on image plane in mm.
+  function defocus(targetM){
+    const f=state.focal, N=state.aperture, s=Math.max(state.distance*1000, f+1),z=Math.max(targetM*1000,f+1);
+    const disc=f*f*Math.abs(s-z)/(N*z*(s-f));
+    return clamp((disc/cameras[state.camera].coc)*.48,0,15);
+  }
+  function render(){
+    const camera=cameras[state.camera],r=calc();
+    $('camera').value=state.camera;
+    $('focal').value=clamp(state.focal,14,600);
+    $('focal-out').textContent=`${state.focal} mm`;
+    $('exact-focal').value=fmtInput(state.focal);
+    $('aperture').value=byVal(state.aperture,apertureStops);
+    $('aperture-out').textContent=`f/${state.aperture}`;
+    $('distance').value=toSlider(state.distance);
+    $('distance-out').textContent=distanceText(state.distance);
+    $('exact-distance').value=fmtInput(toDisplay(state.distance));
+    $('unit-inline').textContent=state.unit;
+    $('distance-min').textContent=distanceText(minDist);
+    $('distance-max').textContent=distanceText(maxDist);
+    $('unit-m').setAttribute('aria-pressed',state.unit==='m');
+    $('unit-ft').setAttribute('aria-pressed',state.unit==='ft');
+    $('sensor-note').textContent=`${camera.sensor} · circle of confusion ${camera.coc.toFixed(3)} mm`;
+    $('sensor-badge').textContent=camera.sensor;
+    $('current-config').textContent=`${camera.short} · ${state.focal}mm · f/${state.aperture}`;
+    $('near').textContent=distanceText(r.near);
+    $('far').textContent=distanceText(r.far);
+    $('hyperfocal').textContent=distanceText(r.H);
+    $('total-dof').textContent=Number.isFinite(r.total)?smallText(r.total):'∞';
+    $('track-near').textContent=distanceText(r.near);
+    $('track-subject').textContent=distanceText(state.distance);
+    $('track-far').textContent=distanceText(r.far);
+    // Diagram is deliberately conceptual; the focus point is anchored in the centre.
+    const nearSpread=clamp(28*Math.log1p((state.distance-r.near)/Math.max(.02,state.distance*.025)),3,42);
+    const farSpread=Number.isFinite(r.far)?clamp(28*Math.log1p((r.far-state.distance)/Math.max(.02,state.distance*.025)),3,42):47;
+    const track=$('depth-track');track.style.setProperty('--near',`${50-nearSpread}%`);track.style.setProperty('--far',`${50+farSpread}%`);
+    // Lens maths drives a representative blur amount at a distant background plane.
+    // Scene photography remains deliberately illustrative, never a calibrated optical render.
+    const farSceneDistance=Math.max(3,state.distance*4);
+    const representativeBlur=defocus(farSceneDistance);
+    const depthFactor=sceneName==='landscape'?.42:sceneName==='macro'?1.15:1;
+    const sceneBlur=clamp((representativeBlur*depthFactor),0,17);
+    $('dof-visual').style.setProperty('--bg-blur',`${sceneBlur.toFixed(2)}px`);
+    $('dof-visual').style.setProperty('--sharp-blur','0px');
+    const ratio=Number.isFinite(r.total)?r.total/Math.max(.1,state.distance):4;
+    $('scene-description').textContent=ratio<.07?'Very shallow focus: background details become noticeably softer.':ratio<.4?'Moderate depth of field: a zone around the subject stays sharp.':'Deep focus: a wider range of distances can appear sharp.';
+    for(const button of document.querySelectorAll('[data-preset]'))button.setAttribute('aria-pressed',button.dataset.preset===activePreset);
+    const query=new URLSearchParams({camera:state.camera,f:state.focal.toString(),n:state.aperture.toString(),d:Number(state.distance.toPrecision(6)).toString(),units:state.unit,scene:sceneName});
+    if(window.history && window.history.replaceState){try{window.history.replaceState(null,'',window.location.pathname+'?'+query.toString()+window.location.hash);}catch(_){/* Local preview may not support history updates */}}
+  }
+  const update=partial=>{state={...state,...partial};activePreset='';render();};
+  $('camera').addEventListener('change',e=>update({camera:e.target.value}));
+  $('focal').addEventListener('input',e=>update({focal:Number(e.target.value)}));
+  $('exact-focal').addEventListener('change',e=>{const n=Number(e.target.value);if(Number.isFinite(n)&&n>0&&n<=2000)update({focal:n});else render();});
+  $('aperture').addEventListener('input',e=>update({aperture:apertureStops[Number(e.target.value)]}));
+  $('distance').addEventListener('input',e=>update({distance:fromSlider(e.target.value)}));
+  $('exact-distance').addEventListener('change',e=>{const n=Number(e.target.value);const m=state.unit==='ft'?n/3.280839895:n;if(Number.isFinite(m)&&m>.001&&m<=10000)update({distance:m});else render();});
+  $('unit-m').addEventListener('click',()=>{state.unit='m';render();});
+  $('unit-ft').addEventListener('click',()=>{state.unit='ft';render();});
+  document.querySelectorAll('[data-preset]').forEach(button=>button.addEventListener('click',()=>{activePreset=button.dataset.preset;chooseScene(activePreset);state={...state,...presets[activePreset]};render();}));
+  $('reset').addEventListener('click',()=>{state={camera:'d850',focal:85,aperture:1.8,distance:2,unit:'m'};activePreset='';chooseScene('portrait');render();});
+  let toastTimeout;
+  const toast=msg=>{$('toast').textContent=msg;$('toast').classList.add('show');clearTimeout(toastTimeout);toastTimeout=setTimeout(()=>$('toast').classList.remove('show'),2400);};
+  $('share').addEventListener('click',async()=>{
+    const url=window.location.href;
+    try{
+      if(navigator.share){await navigator.share({title:'Depth of Field Simulator · A.P Photographic',url});return;}
+      await navigator.clipboard.writeText(url);toast('Settings link copied');
+    }catch(e){if(e.name==='AbortError')return;try{await navigator.clipboard.writeText(url);toast('Settings link copied');}catch(_){window.prompt('Copy this link',url);}}
+  });
+  try{
+    const p=new URLSearchParams(location.search);
+    const camera=p.get('camera'),f=Number(p.get('f')),n=Number(p.get('n')),d=Number(p.get('d')),unit=p.get('units');
+    if(camera && cameras[camera])state.camera=camera;
+    if(p.has('f') && Number.isFinite(f)&&f>=1&&f<=2000)state.focal=f;
+    if(p.has('n') && Number.isFinite(n)&&n>0)state.aperture=apertureStops[byVal(n,apertureStops)];
+    if(p.has('d') && Number.isFinite(d)&&d>.001&&d<=10000)state.distance=d;
+    if(unit==='ft'||unit==='m')state.unit=unit;
+    if(sceneLabels[p.get('scene')])chooseScene(p.get('scene'));
+  }catch(e){/* Defaults remain usable */}
+
+  // Beginner flash simulator. Camera/room exposure fixed; three intuitive variables only.
+  // Brightness roughly follows flash power / distance². Flash head zoom changes beam width
+  // and centre intensity in a deliberately approximate way (different flashes vary).
+  const flashZoomStops=[24,28,35,50,70,85,105];
+  const flashDefaults={power:3,distance:2,zoomIndex:3};
+  let flashState={...flashDefaults};
+  function flashRender(){
+    const {power,distance,zoomIndex}=flashState;
+    const zoom=flashZoomStops[zoomIndex];
+    const denominator=Math.pow(2,7-power);
+    const fraction=1/denominator;
+    const relative=(fraction/(1/16))*Math.pow(2/distance,2)*Math.pow(zoom/50,.8);
+    const exposureStops=Math.log2(relative);
+    const coverage=51*Math.sqrt(50/zoom);
+    const beamRx=Math.max(22,Math.min(82,coverage));
+    const beamRy=Math.max(35,Math.min(112,coverage*1.32));
+    // Screen-tone mapping makes strong and weak flash visible without implying a calibrated exposure.
+    const litBrightness=Math.max(.46,Math.min(3.8,.62+.86*Math.pow(2,exposureStops*.22)));
+    const litOpacity=Math.max(.035,Math.min(1,.08+.89*Math.pow(2,exposureStops*.29)));
+    const scene=$('flash-scene');
+    scene.style.setProperty('--beam-rx',beamRx.toFixed(1)+'%');
+    scene.style.setProperty('--beam-ry',beamRy.toFixed(1)+'%');
+    scene.style.setProperty('--flash-brightness',litBrightness.toFixed(3));
+    scene.style.setProperty('--flash-opacity',litOpacity.toFixed(3));
+    const powerLabel=denominator===1?'1/1':`1/${denominator}`;
+    const distanceLabel=distance.toFixed(1)+' m';
+    $('flash-power').value=power;
+    $('flash-distance').value=distance;
+    $('flash-zoom').value=zoomIndex;
+    $('flash-power-out').textContent=powerLabel;
+    $('flash-distance-out').textContent=distanceLabel;
+    $('flash-zoom-out').textContent=zoom+' mm';
+    $('flash-scene-label').textContent=`${powerLabel} · ${distanceLabel} · ${zoom} mm`;
+    const level=exposureStops>2?'Very bright':exposureStops>.65?'Bright':exposureStops>-.65?'Moderate':exposureStops>-2.5?'Dim':'Very dim';
+    const beam=zoom<=35?'Wide coverage':zoom<=70?'Medium coverage':'Narrow coverage';
+    $('flash-level').textContent=level;
+    $('flash-beam').textContent=beam;
+    scene.setAttribute('aria-label',`Simulated flash photograph. ${level.toLowerCase()} light with ${beam.toLowerCase()}. Flash ${powerLabel}, distance ${distanceLabel}, zoom ${zoom} millimetres.`);
+    let advice;
+    if(exposureStops>2)advice='The flash-lit area is very bright. Try lowering power or increasing distance.';
+    else if(exposureStops<-2.5)advice='Very little flash is reaching the subject. Try moving closer or raising power.';
+    else if(zoom<=35)advice='Wide flash zoom spreads the light over more of the room.';
+    else if(zoom>=85)advice='Longer flash zoom concentrates more light into a narrower beam.';
+    else advice='Move the flash closer or farther away to see how quickly the brightness changes.';
+    $('flash-feedback').innerHTML='<strong>What changed?</strong><span>'+advice+'</span>';
+  }
+  $('flash-power').addEventListener('input',event=>{flashState.power=Number(event.target.value);flashRender();});
+  $('flash-distance').addEventListener('input',event=>{flashState.distance=Number(event.target.value);flashRender();});
+  $('flash-zoom').addEventListener('input',event=>{flashState.zoomIndex=Number(event.target.value);flashRender();});
+  $('flash-reset').addEventListener('click',()=>{flashState={...flashDefaults};flashRender();});
+  flashRender();
+
+  // Learning Lab: all tools run locally, without a backend or external libraries.
+  const labTabs=[...document.querySelectorAll('.lab-tab')];
+  function openLab(key,focus=false){
+    labTabs.forEach(tab=>{const selected=tab.dataset.tool===key;tab.setAttribute('aria-selected',String(selected));tab.tabIndex=selected?0:-1;});
+    document.querySelectorAll('.lab-pane').forEach(p=>{p.hidden=p.id!==`pane-${key}`;});
+    if(focus)document.getElementById(`tab-${key}`).focus();
+    if(key==='histogram')drawHistogram();
+  }
+  labTabs.forEach((tab,index)=>{
+    tab.addEventListener('click',()=>openLab(tab.dataset.tool));
+    tab.addEventListener('keydown',event=>{
+      let next;
+      if(event.key==='ArrowRight')next=(index+1)%labTabs.length;
+      else if(event.key==='ArrowLeft')next=(index+labTabs.length-1)%labTabs.length;
+      else if(event.key==='Home')next=0;
+      else if(event.key==='End')next=labTabs.length-1;
+      else return;
+      event.preventDefault();openLab(labTabs[next].dataset.tool,true);
+    });
+  });
+
+  // Exposure triangle: EV relative to the initial example (f/2.8, 1/250s, ISO 400).
+  const expAps=[1.4,2,2.4,2.8,4,5.6,8,11,22];
+  const expShutters=[1/4000,1/2000,1/1000,1/500,1/250,1/125,1/60,1/30,1/15,1/8,1/4];
+  const expShutterLabels=['1/4000s','1/2000s','1/1000s','1/500s','1/250s','1/125s','1/60s','1/30s','1/15s','1/8s','1/4s'];
+  const expISO=[100,200,400,800,1600,3200,6400];
+  function exposureRender(){
+    const a=Number($('exp-aperture').value),s=Number($('exp-shutter').value),i=Number($('exp-iso').value);
+    const aperture=expAps[a],shutter=expShutters[s],iso=expISO[i];
+    const ev=Math.log2((shutter/(1/250))*(2.8/aperture)**2*(iso/400));
+    const brightness=clamp(2**(ev*.58),.18,3.2);
+    $('exp-aperture-out').textContent=`f/${aperture}`;
+    $('exp-shutter-out').textContent=expShutterLabels[s];
+    $('exp-iso-out').textContent=`ISO ${iso}`;
+    $('exp-photo-label').textContent=`${expShutterLabels[s]} · f/${aperture} · ISO ${iso}`;
+    $('exp-photo-image').style.filter=`brightness(${brightness.toFixed(3)})`;
+    $('exp-grain').style.opacity=(Math.log2(iso/100)/6*.43).toFixed(3);
+    $('exp-ev').textContent=`${ev>=0?'+':''}${ev.toFixed(1)} EV`;
+    const result=ev>2?'Very bright':ev>.7?'Brighter':ev< -2?'Very dark':ev<-.7?'Darker':'Balanced';
+    $('exp-state').textContent=result;
+    let hint=ev>2?'The preview is very bright. Close down the aperture, shorten the exposure or lower ISO.':ev< -2?'The preview is dark. Open the aperture, use a slower shutter or raise ISO.':'The brightness is near the reference exposure. You can exchange one setting for another to keep it similar.';
+    if(iso>=3200)hint+=' High ISO may reveal more noise.';
+    if(shutter>=1/60)hint+=' A longer exposure can blur a moving athlete.';
+    $('exp-feedback').textContent=hint;
+  }
+  ['exp-aperture','exp-shutter','exp-iso'].forEach(id=>$(id).addEventListener('input',exposureRender));
+  $('exp-reset').addEventListener('click',()=>{$('exp-aperture').value=3;$('exp-shutter').value=4;$('exp-iso').value=2;exposureRender();});
+  exposureRender();
+
+  // Shutter speed: directional blur is an approximation; exposure held constant.
+  const motionTimes=[1/4000,1/2000,1/1000,1/500,1/250,1/125,1/60,1/30,1/15,1/8,1/4,1/2];
+  const motionNames=['1/4000s','1/2000s','1/1000s','1/500s','1/250s','1/125s','1/60s','1/30s','1/15s','1/8s','1/4s','1/2s'];
+  function motionRender(){
+    const idx=Number($('motion-speed').value),t=motionTimes[idx];
+    const px=idx<=3?0:Math.min(28,Math.pow(1.55,idx-3)*.95);
+    $('motion-speed-out').textContent=motionNames[idx];
+    $('motion-label').textContent=motionNames[idx]+' · '+(idx<=3?'Mostly frozen action':idx<=6?'Some motion blur':'Pronounced motion blur');
+    $('motion-duration').textContent=t<.01?(t*1000).toFixed(t<.001?2:1)+' ms':(t*1000).toFixed(0)+' ms';
+    $('motion-effect').textContent=idx<=3?'Mostly frozen':idx<=6?'Slight blur':idx<=8?'Motion visible':'Strong motion blur';
+    $('athlete-blur').setAttribute('stdDeviation',`${px.toFixed(1)} 0.2`);
+    $('motion-subject').style.filter=px>.02?'url(#athlete-motion-blur)':'none';
+    $('motion-trail').style.opacity=(idx<=4?0:Math.min(.5,(idx-4)*.085)).toFixed(2);
+    $('motion-trail').style.transform=`translateX(${Math.min(26,px*1.3).toFixed(1)}px)`;
+    $('motion-feedback').textContent=idx<=3?'A fast shutter helps freeze the footballer, especially during quick movement.':idx<=6?'Movement begins to become visible. Tracking the subject and steady technique matter.':'Longer exposures allow more movement to register. Try keeping the camera steady or deliberately following the subject.';
+    document.querySelectorAll('[data-motion]').forEach(b=>b.setAttribute('aria-pressed',String(Number(b.dataset.motion)===idx)));
+  }
+  $('motion-speed').addEventListener('input',motionRender);
+  document.querySelectorAll('[data-motion]').forEach(b=>b.addEventListener('click',()=>{$('motion-speed').value=b.dataset.motion;motionRender();}));
+  motionRender();
+
+  // White balance is a camera Kelvin setting; higher camera Kelvin = warmer output for fixed light.
+  const sources={daylight:{k:5500,label:'Daylight',photo:'portrait.jpg'},tungsten:{k:3200,label:'Warm indoor bulbs',photo:'flash-still-life.jpg'},shade:{k:7500,label:'Open shade',photo:'portrait.jpg'}};
+  function wbRender(){
+    const source=sources[$('wb-light').value],value=Number($('wb-kelvin').value);
+    const delta=clamp(Math.log2(value/source.k),-1.2,1.2);
+    const tint=$('wb-tint');
+    tint.style.background=delta>=0?'#ffa550':'#4389ff';
+    tint.style.opacity=Math.min(.76,Math.abs(delta)*.59).toFixed(3);
+    $('wb-photo-img').src=source.photo;
+    $('wb-kelvin-out').textContent=value+' K';
+    $('wb-reading').textContent=value+' K';
+    $('wb-label').textContent=source.label+' · WB '+value+' K';
+    $('wb-result').textContent=Math.abs(delta)<.1?'Approximately neutral':delta>0?'Warm / amber':'Cool / blue';
+    $('wb-feedback').textContent=Math.abs(delta)<.1?'The camera setting is close to the estimated light colour. Whites should look more neutral.':delta>0?'The chosen camera white balance is higher than the light source. The camera applies a warmer correction.':'The chosen camera white balance is lower than the light source. The camera applies a cooler correction.';
+    document.querySelectorAll('[data-kelvin]').forEach(b=>b.setAttribute('aria-pressed',String(Number(b.dataset.kelvin)===value)));
+  }
+  $('wb-light').addEventListener('change',wbRender);
+  $('wb-kelvin').addEventListener('input',wbRender);
+  document.querySelectorAll('[data-kelvin]').forEach(b=>b.addEventListener('click',()=>{$('wb-kelvin').value=b.dataset.kelvin;wbRender();}));
+  $('wb-match').addEventListener('click',()=>{$('wb-kelvin').value=sources[$('wb-light').value].k;wbRender();});
+  wbRender();
+
+  // Histogram uses pixels from actual bundled JPEG, with the same display-based brightness
+  // transformation as its preview. It is not a sensor-RAW or in-camera histogram simulation.
+  const histSample=document.createElement('canvas');histSample.width=320;histSample.height=180;
+  const histContext=histSample.getContext('2d',{willReadFrequently:true});
+  const histImg=new Image();
+  let histPixels=null;
+  let histSerial=0;
+  const histPhotos={landscape:'landscape.jpg',portrait:'portrait.jpg',sports:'sports.jpg'};
+  function loadHistogram(){
+    const filename=histPhotos[$('hist-scene').value],token=++histSerial;
+    $('hist-photo-img').src=filename;
+    histImg.onload=()=>{
+      if(token!==histSerial)return;
+      histContext.clearRect(0,0,320,180);
+      histContext.drawImage(histImg,0,0,320,180);
+      try{histPixels=histContext.getImageData(0,0,320,180).data;}catch(_){histPixels=null;}
+      drawHistogram();
+    };
+    histImg.onerror=()=>{if(token!==histSerial)return;histPixels=null;drawHistogram();};
+    histImg.src=filename;
+  }
+  function drawHistogram(){
+    const ev=Number($('hist-ev-slider').value),factor=2**ev;
+    $('hist-ev-out').textContent=(ev>=0?'+':'')+ev.toFixed(2).replace(/\.00$/,'.0')+' EV';
+    $('hist-photo-img').style.filter=`brightness(${factor.toFixed(4)})`;
+    const canvas=$('hist-canvas');
+    if(!canvas)return;
+    const ctx=canvas.getContext('2d');
+    if(!ctx)return;
+    const w=canvas.width,h=canvas.height;
+    ctx.clearRect(0,0,w,h);
+    const dark=document.documentElement.dataset.theme==='dark';
+    ctx.fillStyle=dark?'#28333c':'#e8eae9';
+    for(let n=0;n<=4;n++){const x=Math.round(n*w/4);ctx.fillRect(x,0,1,h);}
+    if(!histPixels){ctx.fillStyle=dark?'#bec9d0':'#667078';ctx.font='14px system-ui';ctx.fillText('Loading photograph…',15,h/2);return;}
+    const bins=new Uint32Array(256);let black=0,white=0,total=0;
+    for(let p=0;p<histPixels.length;p+=12){
+      const r=Math.min(255,Math.round(histPixels[p]*factor));
+      const g=Math.min(255,Math.round(histPixels[p+1]*factor));
+      const b=Math.min(255,Math.round(histPixels[p+2]*factor));
+      const lum=Math.min(255,Math.round(.2126*r+.7152*g+.0722*b));
+      bins[lum]++;total++;
+      if(lum<=3)black++;
+      if(lum>=252)white++;
+    }
+    const max=Math.max(...bins,1);
+    ctx.fillStyle=dark?'#fc777d':'#c92d35';
+    for(let b=0;b<256;b++){
+      const height=(bins[b]/max)*(h-9),x=b*w/256,bar=Math.max(1,w/256);
+      ctx.fillRect(x,h-height,bar,height);
+    }
+    const blackPct=100*black/Math.max(1,total),whitePct=100*white/Math.max(1,total);
+    $('hist-black').textContent=blackPct.toFixed(1)+'%';
+    $('hist-white').textContent=whitePct.toFixed(1)+'%';
+    $('hist-feedback').textContent=whitePct>5?'Many pixels are close to white. Check that important highlights still show detail.':blackPct>10?'Many pixels are close to black. Check whether important shadow details are lost.':ev>.5?'The distribution shifts to the right as the image gets brighter.':ev<-.5?'The distribution shifts to the left as the image gets darker.':'The tonal distribution reflects the example photograph. There is no single correct histogram shape.';
+  }
+  $('hist-scene').addEventListener('change',loadHistogram);
+  $('hist-ev-slider').addEventListener('input',drawHistogram);
+  document.querySelectorAll('[data-hist]').forEach(b=>b.addEventListener('click',()=>{$('hist-ev-slider').value=b.dataset.hist;drawHistogram();}));
+  themeButton.addEventListener('click',()=>drawHistogram());
+  loadHistogram();
+
+  // Beginner quiz: clear explanations and client-only optional best score.
+  const questions=[
+    {q:'A player is running towards you in daylight. Which shutter speed is the best starting point to freeze the action?',choices:['1/30 second','1/125 second','1/1000 second'],answer:2,why:'1/1000s is a sensible starting point for fast football action. You may need to adjust based on movement and available light.'},
+    {q:'For a portrait with a softly blurred background, which aperture would you try first?',choices:['f/2','f/11','f/22'],answer:0,why:'f/2 is a wider aperture and can give shallower depth of field, especially with a longer lens and close subject distance.'},
+    {q:'Your flash-lit subject is too bright. What change would reduce direct-flash brightness?',choices:['Move the flash closer','Lower the flash power','Increase the flash power'],answer:1,why:'Lowering flash power reduces illumination. Moving the flash farther away would also generally reduce the light reaching the subject.'},
+    {q:'A photo taken under warm tungsten lamps looks orange. Which camera white balance is a useful starting point?',choices:['3200 K','7500 K','10000 K'],answer:0,why:'A camera WB near 3200K compensates for warm tungsten light. Actual lamp temperatures vary.'},
+    {q:'What does a histogram show?',choices:['The lens focal length','How image tones are distributed from dark to bright','Where autofocus locked onto the subject'],answer:1,why:'A histogram graphs tonal values: shadows to the left, highlights to the right. It helps assess exposure and possible clipping.'},
+    {q:'You increase ISO from 400 to 1600 while keeping aperture and shutter the same. What generally happens?',choices:['The sensor receives four times as many photons','The recorded image is amplified and may show more noise','Depth of field becomes shallower'],answer:1,why:'ISO changes signal amplification or processing. It does not allow more light through the lens; noise may become more noticeable.'}
+  ];
+  let questionIndex=0,quizScore=0,quizAnswered=false;
+  function getBest(){try{return Number(localStorage.getItem('ap-photographic-best-quiz'))||0;}catch(_){return 0;}}
+  function quizRender(){
+    const question=questions[questionIndex];
+    $('challenge-step').textContent=`Question ${questionIndex+1} of ${questions.length}`;
+    $('challenge-bar').style.width=`${100*(questionIndex)/questions.length}%`;
+    $('challenge-question').textContent=question.q;
+    $('challenge-outcome').textContent='';
+    $('challenge-next').hidden=true;
+    $('challenge-score').textContent=`${quizScore} / ${questions.length}`;
+    const saved=getBest();$('challenge-best').textContent=saved?`Best on this device: ${saved} / ${questions.length}`:'Your best score can be saved on this device.';
+    quizAnswered=false;
+    const container=$('challenge-choices');container.replaceChildren();
+    question.choices.forEach((choice,i)=>{
+      const button=document.createElement('button');button.type='button';button.className='challenge-choice';button.textContent=String.fromCharCode(65+i)+'. '+choice;
+      button.addEventListener('click',()=>quizAnswer(i));container.appendChild(button);
+    });
+  }
+  function quizAnswer(index){
+    if(quizAnswered)return;
+    quizAnswered=true;
+    const question=questions[questionIndex],correct=index===question.answer;
+    if(correct)quizScore++;
+    $('challenge-score').textContent=`${quizScore} / ${questions.length}`;
+    $('challenge-bar').style.width=`${100*(questionIndex+1)/questions.length}%`;
+    [...$('challenge-choices').children].forEach((button,i)=>{
+      button.disabled=true;
+      if(i===question.answer)button.classList.add('correct');
+      else if(i===index)button.classList.add('incorrect');
+    });
+    $('challenge-outcome').textContent=(correct?'Correct. ':'Not quite. ')+question.why;
+    $('challenge-next').hidden=false;
+    $('challenge-next').textContent=questionIndex===questions.length-1?'See your result →':'Next question →';
+  }
+  $('challenge-next').addEventListener('click',()=>{
+    if(questionIndex<questions.length-1){questionIndex++;quizRender();}
+    else{
+      const saved=getBest();if(quizScore>saved){try{localStorage.setItem('ap-photographic-best-quiz',String(quizScore));}catch(_){}}
+      $('challenge-step').textContent='Quiz completed';$('challenge-bar').style.width='100%';
+      $('challenge-question').textContent=`You scored ${quizScore} out of ${questions.length}`;
+      $('challenge-choices').replaceChildren();
+      $('challenge-outcome').textContent=quizScore===questions.length?'Excellent understanding of the basics. Try the interactive tools to experiment further.':'Great practice. Review the lessons, then restart to see how much you remember.';
+      $('challenge-next').hidden=true;
+      $('challenge-best').textContent=`Best on this device: ${getBest()} / ${questions.length}`;
+    }
+  });
+  $('challenge-restart').addEventListener('click',()=>{questionIndex=0;quizScore=0;quizRender();});
+  quizRender();
+
+  $('year').textContent=new Date().getFullYear();
+  render();
+})();
+</script>
+</body>
+</html>
