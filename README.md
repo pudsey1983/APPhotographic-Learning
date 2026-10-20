@@ -1,64 +1,48 @@
-# A.P Photographic — Depth of Field Simulator
+# A.P Photographic Learning Lab — your own photographs
 
-Free, responsive depth-of-field calculator and illustrative focus preview. Built as plain HTML, CSS and JavaScript. No Node.js, build tools, database, analytics or external libraries are required.
+This version replaces all generated teaching photographs with seven original photographs you supplied.
 
-## Features
+## Install on your existing GitHub Pages website
 
-- Nikon D850, D7200, Z8, Z50; Canon EOS R5, R6 II, 5D IV, R7, 90D; Sony A7 IV, A7R V, A9 III, A6700, A6400, plus generic sensor types
-- Controls for aperture, focal length and focusing distance
-- Near focus limit, far focus limit, total depth of field and hyperfocal distance
-- Metric and imperial distance displays
-- Scenario presets: portrait, sports, landscape, close-up, **sports panning**
-- Shareable camera settings via URL parameters
-- A.P Photographic branding and mobile-responsive design
-- **Light / dark theme toggle** in the top-right header. Starts from the visitor's device appearance preference, then remembers their choice in the browser (localStorage); no cookies, log-in or tracking required.
-- **Flash Learning Studio:** four real-world lighting scenarios, manual flash power from 1/1 to 1/128, guide number, distance, direct/bounce flash, aperture, ISO, shutter speed and ambient light
-- Estimated flash exposure, ambient exposure and flash range; interactive illustrative lighting preview and beginner lessons
-- Calculations all happen locally in the browser
+1. Download/extract the ZIP.
+2. Open https://github.com/pudsey1983/APPhotographic-Learning .
+3. Upload `index.html` and ALL seven `ap-*.jpg` files to the **root of the repository**, beside `logo.png`. In GitHub, choose **Add file → Upload files**. If `index.html` already exists, overwrite/replace it in the main branch.
+4. Commit to `main`, wait for **Actions** to show a successful Pages deployment, then refresh https://pudsey1983.github.io/APPhotographic-Learning/ with Ctrl+F5.
+5. You may delete the now-unused generated sample files (`portrait.jpg`, `sports.jpg`, `landscape.jpg`, `macro.jpg`, `flash-still-life.jpg`, `sports-panning.jpg`) AFTER verifying the site, but this is optional. Do not delete the new `ap-*.jpg` files.
 
-## Deploy free using GitHub Pages
+## Photo usage in the learning tools
 
-1. Create a **public** repository on GitHub, for example `depth-of-field`.
-2. If you already uploaded an earlier version, use **Add file → Upload files** to upload these updated files and confirm replacing `index.html`. Your GitHub Pages link stays the same. Otherwise, select **Add file → Upload files**, and upload **index.html** and **logo.png** into the repository root (not a nested folder). Commit the changes. You may optionally upload this README file. Do **not** upload the ZIP as the only file: GitHub Pages cannot serve it as a website.
-3. In the repository select **Settings → Pages**.
-4. Under **Build and deployment**, choose **Deploy from a branch**, with branch **main** and folder **/(root)**. Save.
-5. Wait for Pages to publish. Visit `https://YOUR-USERNAME.github.io/depth-of-field/`.
-6. Optional: in **Settings → Pages → Custom domain**, enter `dof.apphotographic.co.uk` and save.
-7. At your domain DNS provider create a **CNAME** record for host `dof` pointing to `YOUR-USERNAME.github.io` (without `https://` or the repository name). Once DNS and certificate are ready, enable **Enforce HTTPS** in GitHub Pages settings.
-8. Consider verifying the domain on GitHub before making DNS changes. DNS changes can take up to 24 hours.
+- `ap-white-tiger.jpg`: Depth of Field portrait example, Histogram and EV portrait.
+- `ap-football.jpg`: Sports preset, motion blur, exposure, histogram and EV.
+- `ap-landscape.jpg`: Landscape preset, histogram and exposure compensation.
+- `ap-mushrooms.jpg`: Close-up example.
+- `ap-border-collie.jpg`: Daylight / neutral reference in White Balance.
+- `ap-woodland.jpg`: Shade comparison in White Balance; composition teaching notes.
+- `ap-player-portrait.jpg`: Flash power, distance and zoom demonstrations; warm-light practice image in White Balance.
 
-**Important:** A free GitHub account requires the Pages repository to be **public**. GitHub Pages is for static projects, and GitHub restricts using it as hosting for websites primarily used to run an online business, conduct ecommerce or sell SaaS. This project is designed as a free educational tool, not a shop. GitHub Pages has a published-site size limit of 1 GB and a soft bandwidth limit of 100 GB/month.
+## Educational transparency
 
-## Run on your computer
+All images are original A.P Photographic photographs. To show visual changes, this website adds CSS blur, motion, exposure, flash or colour-cast effects. These illustrative changes **do not** reconstruct a photo taken at another camera setting, recover naturally blurred details, or represent the capture metadata of the original files. The warm indoor lighting exercise is a colour simulation on a player portrait, **not** a claim that the original photograph was taken under tungsten light. Numeric depth-of-field calculations are independent of these photograph filters.
 
-Open `index.html` in your browser. The share link works as intended once published at an HTTPS website.
+Your unmodified originals stay unchanged outside this package. The JPEG files in the package are web-sized, watermarked copies with copyright and creator metadata. The previously supplied original photographs remain unchanged. Retain your originals separately.
 
-## Technical notes
+All other tools remain: Nikon/Canon/Sony presets, flash, exposure triangle, shutter speed, white balance, histogram, EV, digital colour wheel, ten study guides, random ten-question quiz from forty, and light/dark mode. No paid service, build steps or backend required.
 
-- Hyperfocal distance: `H = f²/(N × c) + f` in millimetres.
-- Near limit: `H × s / (H + s − f)`; far limit: `H × s / (H − s + f)` or infinity when `s − f >= H`.
-- For the chosen sensor format, conventional circle-of-confusion values are used (0.030 mm FX, 0.020 mm Nikon DX, 0.019 mm Canon APS-C, 0.015 mm MFT).
-- These are thin-lens approximations; real lenses, focus breathing, magnification and expectations of sharpness can affect real-world results.
-- Focus preview and bar graph are conceptual visualisations, **not** a physically accurate simulator or a proportional distance diagram.
-- Flash approximation uses `GN_effective = GN_full × sqrt(relative_flash_power) × sqrt(ISO/100) × bounce_factor`, with bounce factor 0.5 (illustrative two-stop loss). Estimate f-number as `GN_effective / distance`; relative flash EV as `2 log2(f_number_estimate / aperture)`.
-- Ambient exposure uses `EV100_camera = log2(aperture² / shutter_seconds) − log2(ISO/100)` compared to representative scene EV. Camera flashes have differing synchronization limits. Model does not include HSS, TTL, flash zoom changes, modifiers, subject reflectance or bounce-surface geometry.
-- Calculations and lighting previews are **educational estimates**. Validate with test exposures before relying on them.
+© A.P Photographic. Photographs and logo remain the rights holder's property; no redistribution licence is granted.
 
-Copyright © 2026 A.P Photographic. Original implementation written for A.P Photographic.
+## Copyright — important
 
-## Theme controls
+The educational website can be visited and used free of charge. That does **not** grant a licence to reuse the photographs.
 
-Click **Dark mode** or **Light mode** in the website header to switch. New visitors start with their device theme (when detectable). A visitor’s explicit choice is saved only on that device and browser. The depth-of-field and flash calculations are unchanged.
+- All seven `ap-*.jpg` images in this package include a visible **© A.P Photographic** watermark and embedded JPEG copyright metadata.
+- The website also displays an on-screen photo credit and a **Photography copyright & image use** notice, linked in the footer.
+- All original photographs © 2026 A.P Photographic. All rights reserved. Written permission is needed before republishing, copying, editing, distributing or commercially using the photographs.
+- Users may freely link to the learning website and use the interactive lessons.
+- The watermark and metadata communicate copyright; they **cannot physically prevent** someone from downloading an image, making a screenshot or removing the watermark.
+- This `PHOTO_USAGE.md` is a statement about the photographic assets, **not** an open-source licence for site code. The public GitHub repository makes code visible; its licensing is a separate choice.
 
+### Important: upload both the HTML and all seven JPEG files
 
-## Realistic example photographs
+To see watermarks on direct JPEG image URLs, replace all existing `ap-*.jpg` images in your GitHub repository with the watermarked copies in this ZIP **and** replace `index.html` to get the photo notice and on-screen credit. Keep all eight files in the main repository folder alongside `logo.png`.
 
-The depth-of-field preview now includes four **AI-generated example photographs** (portrait, sports, landscape, close-up); the flash preview shows an AI-generated indoor still life. They are educational illustrations, not photos taken with the selected equipment or exact lens/flash simulations. The controls still drive the live depth-of-field estimates, the simulated blur, and relative ambient-versus-flash brightness.
-
-The images are included in `images/` and are served locally by GitHub Pages; no external image service, account or payment is needed. Upload the entire `images/` folder along with `index.html`, `logo.png`, and `README.md` when updating.
-
-## Sports panning example
-
-The additional **Panning sports · 1/60s example** preset uses `images/sports-panning.jpg` (an AI-generated illustration with pre-existing motion streaking). It sets a plausible example of 135mm, f/8 at 12 metres and shows a short explanation of panning technique. **1/60s is a suggested practice starting point, not the verified shutter speed of the generated image.** Faster and slower shutter speeds change how motion is recorded, but this depth-of-field calculator does **not** simulate shutter speed.
-
-To deploy this update, replace `index.html` and upload `images/sports-panning.jpg`. The remaining photo files and `logo.png` do not need changing if already uploaded. When uploading the entire folder, preserve `images/` relative to `index.html`.
+**GitHub history reminder:** Previous versions of your unwatermarked web photos may still be accessible through the repository’s earlier commits. Uploading replacements will not erase Git history, and watermarks cannot prevent all copying.
